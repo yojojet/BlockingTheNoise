@@ -57,14 +57,14 @@ function init() {
     1,
     10000
   );
-  camera.position.set(0, 0, 50);
+  camera.position.set(0, 0, 30);
 
   var loader = new THREE.TextureLoader();
   
   // renderer
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(0.5);
+  renderer.setPixelRatio(1);
   renderer.setSize(window.innerWidth - params.widthOffset, window.innerHeight);
   // renderer.outputEncoding = THREE.sRGBEncoding;
   // renderer.shadowMap.enabled = true;
@@ -113,6 +113,42 @@ function initMesh() {
   mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
   scene.add( mesh );
 
+
+  // helper
+
+  const axesHelper = new THREE.AxesHelper( 5 );
+scene.add( axesHelper );
+
+  // update mesh
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+
+  // for ( let x = 0; x < amount; x ++ ) {
+  //   for ( let y = 0; y < amount; y ++ ) {
+  //     for ( let z = 0; z < amount; z ++ ) {
+
+  //       dummy.position.set( offset - x, offset - y, offset - z );
+  //       // dummy.rotation.y = ( Math.sin( x / 4 + time ) + Math.sin( y / 4 + time ) + Math.sin( z / 4 + time ) );
+  //       // dummy.rotation.z = dummy.rotation.y * 2;
+  //       dummy.updateMatrix();
+  //       mesh.setMatrixAt( i ++, dummy.matrix );
+
+  //     }
+  //   }
+  // }
+
+  for ( let x = 0; x < 10; x ++ ) {
+
+      dummy.position.set( x, 0, 0 );
+      console.log('x is...', x)
+      dummy.updateMatrix();
+      mesh.setMatrixAt( i ++, dummy.matrix );
+
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+
+
 }
 
 //
@@ -131,34 +167,43 @@ function onWindowResize() {
 
 function updateMeshPerFrame() {
 
-  if ( mesh ) {
+  // if ( mesh ) {
 
-    const time = Date.now() * 0.001;
+  //   const time = Date.now() * 0.001;
 
-    // mesh.rotation.x = Math.sin( time / 4 );
-    // mesh.rotation.y = Math.sin( time / 2 );
+  //   // mesh.rotation.x = Math.sin( time / 4 );
+  //   // mesh.rotation.y = Math.sin( time / 2 );
 
-    let i = 0;
-    const offset = ( amount - 1 ) / 2;
+  //   let i = 0;
+  //   const offset = ( amount - 1 ) / 2;
 
-    for ( let x = 0; x < amount; x ++ ) {
-      for ( let y = 0; y < amount; y ++ ) {
-        for ( let z = 0; z < amount; z ++ ) {
+  //   // for ( let x = 0; x < amount; x ++ ) {
+  //   //   for ( let y = 0; y < amount; y ++ ) {
+  //   //     for ( let z = 0; z < amount; z ++ ) {
 
-          dummy.position.set( offset - x, offset - y, offset - z );
-          // dummy.rotation.y = ( Math.sin( x / 4 + time ) + Math.sin( y / 4 + time ) + Math.sin( z / 4 + time ) );
-          // dummy.rotation.z = dummy.rotation.y * 2;
-          dummy.updateMatrix();
-          mesh.setMatrixAt( i ++, dummy.matrix );
+  //   //       dummy.position.set( offset - x, offset - y, offset - z );
+  //   //       // dummy.rotation.y = ( Math.sin( x / 4 + time ) + Math.sin( y / 4 + time ) + Math.sin( z / 4 + time ) );
+  //   //       // dummy.rotation.z = dummy.rotation.y * 2;
+  //   //       dummy.updateMatrix();
+  //   //       mesh.setMatrixAt( i ++, dummy.matrix );
 
-        }
-      }
-    }
+  //   //     }
+  //   //   }
+  //   // }
 
-    mesh.instanceMatrix.needsUpdate = true;
-    // mesh.computeBoundingSphere();
+  //   for ( let x = 0; x < 10; x ++ ) {
 
-  }
+  //       dummy.position.set( x, 0, 0 );
+  //       console.log('x is...', x)
+  //       dummy.updateMatrix();
+  //       mesh.setMatrixAt( i ++, dummy.matrix );
+
+  //   }
+
+  //   mesh.instanceMatrix.needsUpdate = true;
+  //   // mesh.computeBoundingSphere();
+
+  // }
 
 }
 
