@@ -24,19 +24,25 @@ import { GUI } from '/node_modules/three/examples/jsm/libs/dat.gui.module.js';
 
 let params = {
   widthOffset: 0,
-  boolean: false
+  boolean: false,
+  plotSpiral: () => {},
+  plotRing: () => {},
+  plotWave: () => {},
+  plotSines: () => {},
+  plotRectangle: () => {},
 };
 
 let tick = 0
 let container, stats;
 let camera, scene, renderer, mesh;
 
-const amount = 4;
-const count = amount * amount * amount;
+const amount = 2;
+const count = 50;
 const dummy = new THREE.Object3D();
 
 init();
 initMesh()
+initGui()
 animate(0);
 
 function init() {
@@ -52,12 +58,12 @@ function init() {
   // camera
 
   camera = new THREE.PerspectiveCamera(
-    60,
+    30,
     (window.innerWidth - params.widthOffset) / window.innerHeight,
     1,
     10000
   );
-  camera.position.set(0, 0, 30);
+  camera.position.set(2, 2, 10);
 
   var loader = new THREE.TextureLoader();
   
@@ -91,11 +97,7 @@ function init() {
 
   window.addEventListener("resize", onWindowResize, false);
 
-  //
-
-  var gui = new GUI();
-  gui.add(params, "boolean")
-  
+  //  
   onWindowResize()
 }
 
@@ -117,13 +119,9 @@ function initMesh() {
   // helper
 
   const axesHelper = new THREE.AxesHelper( 5 );
-scene.add( axesHelper );
+  scene.add( axesHelper );
 
   // update mesh
-
-  let i = 0;
-  const offset = ( amount - 1 ) / 2;
-
   // for ( let x = 0; x < amount; x ++ ) {
   //   for ( let y = 0; y < amount; y ++ ) {
   //     for ( let z = 0; z < amount; z ++ ) {
@@ -137,19 +135,153 @@ scene.add( axesHelper );
   //     }
   //   }
   // }
+  
+  
+  
+  
+  // let fibLastMinus1 = 0
+  // let fibLast = 1
+  // let fibNext = 0
 
-  for ( let x = 0; x < 10; x ++ ) {
-
-      dummy.position.set( x, 0, 0 );
-      console.log('x is...', x)
-      dummy.updateMatrix();
-      mesh.setMatrixAt( i ++, dummy.matrix );
-
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-
+  // for ( let x = 0; x < 15; x ++ ) {
+  //     fibNext = fibLastMinus1 + fibLast // sum of last 2 in seq
+  //     let newXPosition = fibNext;
+  //     console.log(x, 'fibNext', fibNext)
+  //     fibLastMinus1 = fibLast // update 2nd last in seq
+  //     fibLast = fibNext // update 1st last in seq
+  //     dummy.position.set( newXPosition, 0, 0 );
+  //     dummy.updateMatrix();
+  //     mesh.setMatrixAt(i++, dummy.matrix );
+  // }
 
 }
+
+function makeRing() {
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+  let totalNumOfPoints = 48
+  let angle = 360/totalNumOfPoints
+
+  for ( let x = 0; x < totalNumOfPoints; x ++ ) {
+    let radius = 10
+      let angleOfCurrentPoint = angle * x
+      let newXPosition = Math.sin(angleOfCurrentPoint * Math.PI/180) * radius;
+      let newYPosition = Math.cos(angleOfCurrentPoint * Math.PI/180) * radius;
+      
+      dummy.position.set( newXPosition, newYPosition, 0 );
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+  }
+  
+  mesh.instanceMatrix.needsUpdate = true;
+}
+
+
+function makeSpiral() {
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+  let totalNumOfPoints = 48
+  let angle = 360/totalNumOfPoints
+
+  for ( let x = 0; x < totalNumOfPoints; x ++ ) {
+    let radius = 10 - x
+      let angleOfCurrentPoint = angle * x
+      let newXPosition = Math.sin(angleOfCurrentPoint * Math.PI/180) * radius;
+      let newYPosition = Math.cos(angleOfCurrentPoint * Math.PI/180) * radius;
+      
+      dummy.position.set( newXPosition, newYPosition, 0 );
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+  }
+  
+  mesh.instanceMatrix.needsUpdate = true;
+}
+
+function makeWave() {
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+
+  let y = 0;
+
+  for ( let x = 0; x < 48; x ++ ) {
+     
+
+    if (x % 2 ==0) {
+      y=0
+      
+    } else{
+      y=1;
+      
+    }
+    
+      
+      dummy.position.set( x, y, 0 );
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+  }
+  
+  mesh.instanceMatrix.needsUpdate = true;
+}
+function makeSines() {
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+
+  
+  for ( let x = 0; x < 48; x ++ ) {
+     
+    let y = Math.sin(x);
+    
+    
+      
+      dummy.position.set( x, y, 0 );
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+  }
+  
+  mesh.instanceMatrix.needsUpdate = true;
+}
+function makeRectangle() {
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+
+  
+  for ( let x = 0; x < 6; x ++ ) {
+     for ( let y = 0; y < 4; y ++){
+      for ( let z = 0; z < 2; z++){
+    
+      dummy.position.set( x, y, z );
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+      }
+    }
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+}
+
+
+
+function initGui() {
+  var gui = new GUI();
+  
+  params.plotSpiral = makeSpiral
+  params.plotRing = makeRing
+  params.plotWave = makeWave
+  params.plotSines = makeSines
+  params.plotRectangle = makeRectangle
+
+  gui.add(params, "plotSpiral")
+  gui.add(params, "plotRing")
+  gui.add(params, "plotWave")
+  gui.add(params, "plotSines")
+  gui.add(params, "plotRectangle")
+}
+
+
 
 //
 
@@ -205,7 +337,10 @@ function updateMeshPerFrame() {
 
   // }
 
+
 }
+
+
 
 //
 
