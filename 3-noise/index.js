@@ -30,6 +30,7 @@ let params = {
   plotWave: () => {},
   plotSines: () => {},
   plotRectangle: () => {},
+  plotRotation: () => {},
 };
 
 let tick = 0
@@ -155,14 +156,52 @@ function makeRectangle() {
   mesh.instanceMatrix.needsUpdate = true;
 }
 
+function makeRotation(){
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+  
+  const xCount = amount
+  const yCount = amount
+  
+  for ( let x = 0; x < xCount; x ++ ) {
+     for ( let y = 0; y < yCount; y ++){
+
+      const newX = x - offset;
+      const newY = y - offset;
+
+      const newRotX = i
+      const newScale = Math.sin(i)
+
+      dummy.position.set( x - offset, y - offset, 0 );
+      
+      dummy.rotation.set(newRotX, 0, 0)
+
+      dummy.scale.set(newScale, newScale, 1)
+
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+
+    }
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+
+}
+
+
+
+
+
+
+
 function initGui() {
   var gui = new GUI();
-  
+  params.plotRotation = makeRotation
   params.plotRectangle = makeRectangle
   // gui.add(params, "plotRectangle")
   gui.add({ controls: false}, 'controls').onChange((v)=>{
       controls.enabled = v
-  })
+ gui.add (params, "plotRotation")
+    })
 
   makeRectangle()
 }
