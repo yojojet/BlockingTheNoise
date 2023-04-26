@@ -42,7 +42,7 @@ let tick = 0
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 
-const amount = 25;
+const amount = 50;
 const count = amount*amount;
 const dummy = new THREE.Object3D();
 
@@ -294,7 +294,7 @@ function getHello (name) {
   return greeting + name
 }
 
-function makeNoisy() {
+function makeNoisy(time) {
 
   // let n1 = PerlinNoise.noise( 1, 1, .8 );
   // let n2 = PerlinNoise.noise( 2, 1, .8 );
@@ -309,6 +309,7 @@ function makeNoisy() {
  
   const xCount = amount;
   const yCount = amount;
+  const seed = time + 0.4
   
   for ( let x = 0; x < xCount; x ++ ) {
      for ( let y = 0; y < yCount; y ++){
@@ -318,11 +319,19 @@ function makeNoisy() {
 
       // const newRotX = i;
   
-      const newScale = PerlinNoise.noise(x, y, .8 );
-      console.log(newScale)
+      const n = PerlinNoise.noise(x, y, seed );
+      const newScale = n * n *10;
+      // 1 + 2
+      // 1 - 2
+      // 1 * 2
+      // 1 / 2
+      // n * n
+      // n ^ 3
+
+      // console.log(newScale)
       dummy.position.set( x - offset, y - offset, 0 );
       //dummy.rotation.set(newRotX, 0, 0);
-      dummy.scale.set(newScale*5, newScale*5, 1);
+      dummy.scale.set(newScale, newScale, 1);
 
       dummy.updateMatrix();
       mesh.setMatrixAt(i++, dummy.matrix );
@@ -366,7 +375,7 @@ function initGui() {
   gui.add(params, "plotUfo")
   gui.add(params, "plotNoisy")    
 
-    makeNoisy()
+  makeNoisy(0)
 }
 
 //
@@ -433,6 +442,8 @@ function updateMeshPerFrame() {
 function animate(now) {
   tick++
   requestAnimationFrame(animate);
+  // console.log(tick)
+  makeNoisy(tick*0.008)
   render();
   stats.update();
 }
