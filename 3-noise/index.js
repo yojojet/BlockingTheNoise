@@ -319,7 +319,8 @@ function makeNoisy(time) {
 
       // const newRotX = i;
   
-      const n = PerlinNoise.noise(x, y, seed );
+      const n = PerlinNoise.noise(x+seed, y+seed, 0.8 );
+      // const n = PerlinNoise.noise(x, y, seed);
       const newScale = n * n *10;
       // 1 + 2
       // 1 - 2
