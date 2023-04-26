@@ -5,10 +5,11 @@
 // import Stats from "/lib/three/examples/jsm/libs/stats.module.js";
 // import { GUI } from "/lib/three/examples/jsm/libs/dat.gui.module.js";
 
-import * as THREE from '/three/build/three.module.js';
+import * as  THREE  from '/three/build/three.module.js';
 import { OrbitControls } from '/three/examples/jsm/controls/OrbitControls.js';
 import Stats from '/three/examples/jsm/libs/stats.module.js';
 import { GUI } from '/three/examples/jsm/libs/dat.gui.module.js';
+//import { randFloatSpread } from '/three/src/math/MathUtils';
 
 /*
  * Cloth Simulation using a relaxed constraints solver
@@ -31,6 +32,7 @@ let params = {
   plotSines: () => {},
   plotRectangle: () => {},
   plotRotation: () => {},
+  plotSize: () => {},
 };
 
 let tick = 0
@@ -79,7 +81,7 @@ function init() {
 
   // controls
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.enabled = false
+  controls.enabled = true
   controls.update()
 
   // performance monitor
@@ -130,8 +132,8 @@ function makeRectangle() {
   let i = 0;
   const offset = ( amount - 1 ) / 2;
   
-  const xCount = amount
-  const yCount = amount
+  const xCount = amount;
+  const yCount = amount;
   
   for ( let x = 0; x < xCount; x ++ ) {
      for ( let y = 0; y < yCount; y ++){
@@ -139,14 +141,14 @@ function makeRectangle() {
       const newX = x - offset;
       const newY = y - offset;
 
-      const newRotX = i
-      const newScale = Math.sin(i)
+      const newRotX = i;
+      const newScale = Math.sin(i);
 
       dummy.position.set( x - offset, y - offset, 0 );
       
-      dummy.rotation.set(newRotX, 0, 0)
+      dummy.rotation.set(newRotX, 0, 0);
 
-      dummy.scale.set(newScale, newScale, 1)
+      dummy.scale.set(newScale, newScale, 1);
 
       dummy.updateMatrix();
       mesh.setMatrixAt(i++, dummy.matrix );
@@ -160,23 +162,29 @@ function makeRotation(){
   let i = 0;
   const offset = (amount-1)/2;
   
-  const xCount = amount
-  const yCount = amount
+  const xCount = amount;
+  const yCount = amount;
   
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
+  for ( let y = 0; y < yCount; y ++){
+    for ( let x = 0; x < xCount; x ++ ) {
 
       const newX = x - offset;
       const newY = y - offset;
 
-      const newRotX = i+1
-      const newScale = Math.sin(i)
+      const amountForCurrentItem = (i / (xCount * yCount)) // i / total
+      const endGoal = (Math.PI * 2)
+      const newRotX = amountForCurrentItem * endGoal
+      // const newRotX = 1 * (2 * Math.PI);
+
+        console.log(newRotX)
+
+      const newScale = Math.sin(i);
 
       dummy.position.set( x - offset, y - offset, 0 );
       
-      dummy.rotation.set(newRotX, 0, 0)
+      dummy.rotation.set(newRotX, newRotX, 0);
 
-      //dummy.scale.set(newScale, newScale, 1)
+      //dummy.scale.set(newScale, newScale, 1);
 
       dummy.updateMatrix();
       mesh.setMatrixAt(i++, dummy.matrix );
@@ -188,8 +196,7 @@ function makeRotation(){
 }
 
 
-
-
+\\
 
 
 
@@ -197,14 +204,16 @@ function initGui() {
   var gui = new GUI();
   params.plotRotation = makeRotation
   params.plotRectangle = makeRectangle
+  params.plotSize = makeSize
   // gui.add(params, "plotRectangle")
   gui.add({ controls: false}, 'controls').onChange((v)=>{
       controls.enabled = v
  gui.add (params, "plotRectangle")
  gui.add (params, "plotRotation")
+ gui.add (params, "plotSize")
     })
 
-    makeRotation()
+    makeSize()
 }
 
 
