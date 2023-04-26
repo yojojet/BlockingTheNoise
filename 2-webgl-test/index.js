@@ -37,7 +37,7 @@ let container, stats;
 let camera, scene, renderer, mesh;
 
 const amount = 2;
-const count = 50;
+const count = 1000;
 const dummy = new THREE.Object3D();
 
 init();
@@ -160,7 +160,7 @@ function makeRing() {
 
   let i = 0;
   const offset = ( amount - 1 ) / 2;
-  let totalNumOfPoints = 48
+  let totalNumOfPoints = 1000
   let angle = 360/totalNumOfPoints
 
   for ( let x = 0; x < totalNumOfPoints; x ++ ) {
@@ -206,7 +206,7 @@ function makeWave() {
 
   let y = 0;
 
-  for ( let x = 0; x < 48; x ++ ) {
+  for ( let x = 0; x < 1000; x ++ ) {
      
 
     if (x % 2 ==0) {
@@ -231,7 +231,7 @@ function makeSines() {
   const offset = ( amount - 1 ) / 2;
 
   
-  for ( let x = 0; x < 48; x ++ ) {
+  for ( let x = 0; x < 1000; x ++ ) {
      
     let y = Math.sin(x);
     
