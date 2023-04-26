@@ -5,10 +5,10 @@
 // import Stats from "/lib/three/examples/jsm/libs/stats.module.js";
 // import { GUI } from "/lib/three/examples/jsm/libs/dat.gui.module.js";
 
-import * as THREE from '/node_modules/three/build/three.module.js';
-import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
-import Stats from '/node_modules/three/examples/jsm/libs/stats.module.js';
-import { GUI } from '/node_modules/three/examples/jsm/libs/dat.gui.module.js';
+import * as THREE from '/three/build/three.module.js';
+import { OrbitControls } from '/three/examples/jsm/controls/OrbitControls.js';
+import Stats from '/three/examples/jsm/libs/stats.module.js';
+import { GUI } from '/three/examples/jsm/libs/dat.gui.module.js';
 
 /*
  * Cloth Simulation using a relaxed constraints solver
