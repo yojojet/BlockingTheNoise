@@ -35,6 +35,7 @@ let params = {
   plotSize: () => {},
   plotMushroom: () => {},
   plotUfo: () => {},
+  plotNoisy: () => {},
 };
 
 let tick = 0
@@ -282,8 +283,69 @@ function makeUfo(){
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
+}
+
+function sayHelloDirectly (name) {
+  console.log('Hello! ' + name)
+}
+
+function getHello (name) {
+  const greeting = 'Hello, '
+  return greeting + name
+}
+
+function makeNoisy() {
+
+  // let n1 = PerlinNoise.noise( 1, 1, .8 );
+  // let n2 = PerlinNoise.noise( 2, 1, .8 );
+  // let n3 = PerlinNoise.noise( 3, 1, .8 );
+  // console.log(n1)
+  // console.log(n2)
+  // console.log(n3)
+
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+  
+ 
+  const xCount = amount;
+  const yCount = amount;
+  
+  for ( let x = 0; x < xCount; x ++ ) {
+     for ( let y = 0; y < yCount; y ++){
+
+      // const newX = x - offset;
+      // const newY = y - offset;
+
+      // const newRotX = i;
+  
+      const newScale = PerlinNoise.noise(x, y, .8 );
+      console.log(newScale)
+      dummy.position.set( x - offset, y - offset, 0 );
+      //dummy.rotation.set(newRotX, 0, 0);
+      dummy.scale.set(newScale*5, newScale*5, 1);
+
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+
+    }
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+
+  // sayHelloDirectly('Jason')
+  // sayHelloDirectly('Nick')
+  // sayHelloDirectly('Claire')
+  
+  // let greetingToNick = getHello('Nick')
+  // let greetingToJason = getHello('Jason')
+
+  // console.log(greetingToNick)
+  // console.log(greetingToJason)
+  // console.log(greetingToJason)
+  // console.log(greetingToJason)
 
 }
+
+
 
 function initGui() {
   var gui = new GUI();
@@ -292,20 +354,20 @@ function initGui() {
   params.plotSize = makeSize
   params.plotMushrooms = makeMushroom
   params.plotUfo = makeUfo
+  params.plotNoisy = makeNoisy
   // gui.add(params, "plotRectangle")
   gui.add({ controls: false}, 'controls').onChange((v)=>{
-      controls.enabled = v
- gui.add (params, "plotRectangle")
- gui.add (params, "plotRotation")
- gui.add (params, "plotSize")
- gui.add (params, "plotMushrooms")
- gui.add (params, "plotUfo")
-    })
+    controls.enabled = v
+  })
+  gui.add(params, "plotRectangle")
+  gui.add(params, "plotRotation")
+  gui.add(params, "plotSize")
+  gui.add(params, "plotMushrooms")
+  gui.add(params, "plotUfo")
+  gui.add(params, "plotNoisy")    
 
-    makeSize()
+    makeNoisy()
 }
-
-
 
 //
 
