@@ -409,20 +409,20 @@ function updateMeshPerFrame() {
   //     }
   //   }
 
-    for ( let x = 0; x < 10; x ++ ) {
+  //   for ( let x = 0; x < 10; x ++ ) {
 
-        dummy.position.set( x, 0, 0 );
-        console.log('x is...', x)
-        dummy.updateMatrix();
-        mesh.setMatrixAt( i ++, dummy.matrix );
+  //       dummy.position.set( x, 0, 0 );
+  //       console.log('x is...', x)
+  //       dummy.updateMatrix();
+  //       mesh.setMatrixAt( i ++, dummy.matrix );
 
-    }
+  //   }
 
-    mesh.instanceMatrix.needsUpdate = true;
-    mesh.computeBoundingSphere();
+  //   mesh.instanceMatrix.needsUpdate = true;
+  //   mesh.computeBoundingSphere();
 
-  }
-// }
+  // }
+}
 
 
 
