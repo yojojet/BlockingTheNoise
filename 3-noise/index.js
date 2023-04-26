@@ -169,14 +169,14 @@ function makeRotation(){
       const newX = x - offset;
       const newY = y - offset;
 
-      const newRotX = i
+      const newRotX = i+1
       const newScale = Math.sin(i)
 
       dummy.position.set( x - offset, y - offset, 0 );
       
       dummy.rotation.set(newRotX, 0, 0)
 
-      dummy.scale.set(newScale, newScale, 1)
+      //dummy.scale.set(newScale, newScale, 1)
 
       dummy.updateMatrix();
       mesh.setMatrixAt(i++, dummy.matrix );
@@ -204,7 +204,7 @@ function initGui() {
  gui.add (params, "plotRotation")
     })
 
-  makeRectangle()
+    makeRotation()
 }
 
 
