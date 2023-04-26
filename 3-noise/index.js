@@ -158,7 +158,7 @@ function makeRectangle() {
 
 function makeRotation(){
   let i = 0;
-  const offset = ( amount - 1 ) / 2;
+  const offset = (amount-1)/2;
   
   const xCount = amount
   const yCount = amount
@@ -200,6 +200,7 @@ function initGui() {
   // gui.add(params, "plotRectangle")
   gui.add({ controls: false}, 'controls').onChange((v)=>{
       controls.enabled = v
+ gui.add (params, "plotRectangle")
  gui.add (params, "plotRotation")
     })
 
