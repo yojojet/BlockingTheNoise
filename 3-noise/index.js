@@ -127,7 +127,6 @@ function initMesh() {
 
   const axesHelper = new THREE.AxesHelper( 5 );
   scene.add( axesHelper );
-
 }
 
 function makeRectangle() {
@@ -177,7 +176,6 @@ function makeRotation(){
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
-
 }
 
 
@@ -252,7 +250,6 @@ function makeMushroom(){
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
-
 }
 
 function makeUfo(){
@@ -285,14 +282,14 @@ function makeUfo(){
   mesh.instanceMatrix.needsUpdate = true;
 }
 
-function sayHelloDirectly (name) {
-  console.log('Hello! ' + name)
-}
+// function sayHelloDirectly (name) {
+//   console.log('Hello! ' + name)
+// }
 
-function getHello (name) {
-  const greeting = 'Hello, '
-  return greeting + name
-}
+// function getHello (name) {
+//   const greeting = 'Hello, '
+//   return greeting + name
+// }
 
 function makeNoisy(time) {
 
@@ -322,12 +319,7 @@ function makeNoisy(time) {
       const n = PerlinNoise.noise(x+seed, y+seed, 0.8 );
       // const n = PerlinNoise.noise(x, y, seed);
       const newScale = n * n *10;
-      // 1 + 2
-      // 1 - 2
-      // 1 * 2
-      // 1 / 2
-      // n * n
-      // n ^ 3
+     
 
       // console.log(newScale)
       dummy.position.set( x - offset, y - offset, 0 );
@@ -352,7 +344,6 @@ function makeNoisy(time) {
   // console.log(greetingToJason)
   // console.log(greetingToJason)
   // console.log(greetingToJason)
-
 }
 
 
@@ -365,7 +356,6 @@ function initGui() {
   params.plotMushrooms = makeMushroom
   params.plotUfo = makeUfo
   params.plotNoisy = makeNoisy
-  // gui.add(params, "plotRectangle")
   gui.add({ controls: false}, 'controls').onChange((v)=>{
     controls.enabled = v
   })
@@ -393,48 +383,46 @@ function onWindowResize() {
 
 // 
 
-function updateMeshPerFrame() {
+// function updateMeshPerFrame() {
 
   // if ( mesh ) {
 
   //   const time = Date.now() * 0.001;
 
-  //   // mesh.rotation.x = Math.sin( time / 4 );
-  //   // mesh.rotation.y = Math.sin( time / 2 );
+  //   mesh.rotation.x = Math.sin( time / 4 );
+  //   mesh.rotation.y = Math.sin( time / 2 );
 
   //   let i = 0;
   //   const offset = ( amount - 1 ) / 2;
 
-  //   // for ( let x = 0; x < amount; x ++ ) {
-  //   //   for ( let y = 0; y < amount; y ++ ) {
-  //   //     for ( let z = 0; z < amount; z ++ ) {
+  //   for ( let x = 0; x < amount; x ++ ) {
+  //     for ( let y = 0; y < amount; y ++ ) {
+  //       for ( let z = 0; z < amount; z ++ ) {
 
-  //   //       dummy.position.set( offset - x, offset - y, offset - z );
-  //   //       // dummy.rotation.y = ( Math.sin( x / 4 + time ) + Math.sin( y / 4 + time ) + Math.sin( z / 4 + time ) );
-  //   //       // dummy.rotation.z = dummy.rotation.y * 2;
-  //   //       dummy.updateMatrix();
-  //   //       mesh.setMatrixAt( i ++, dummy.matrix );
+  //         dummy.position.set( offset - x, offset - y, offset - z );
+  //         dummy.rotation.y = ( Math.sin( x / 4 + time ) + Math.sin( y / 4 + time ) + Math.sin( z / 4 + time ) );
+  //         dummy.rotation.z = dummy.rotation.y * 2;
+  //         dummy.updateMatrix();
+  //         mesh.setMatrixAt( i ++, dummy.matrix );
 
-  //   //     }
-  //   //   }
-  //   // }
-
-  //   for ( let x = 0; x < 10; x ++ ) {
-
-  //       dummy.position.set( x, 0, 0 );
-  //       console.log('x is...', x)
-  //       dummy.updateMatrix();
-  //       mesh.setMatrixAt( i ++, dummy.matrix );
-
+  //       }
+  //     }
   //   }
 
-  //   mesh.instanceMatrix.needsUpdate = true;
-  //   // mesh.computeBoundingSphere();
+//     for ( let x = 0; x < 10; x ++ ) {
 
-  // }
+//         dummy.position.set( x, 0, 0 );
+//         console.log('x is...', x)
+//         dummy.updateMatrix();
+//         mesh.setMatrixAt( i ++, dummy.matrix );
 
+//     }
 
-}
+//     mesh.instanceMatrix.needsUpdate = true;
+//     mesh.computeBoundingSphere();
+
+//   }
+// }
 
 
 
