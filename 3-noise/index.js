@@ -168,63 +168,58 @@ function makeRotation(){
   for ( let y = 0; y < yCount; y ++){
     for ( let x = 0; x < xCount; x ++ ) {
 
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const amountForCurrentItem = (i / (xCount * yCount)) // i / total
-      const endGoal = (Math.PI * 2)
-      const newRotX = amountForCurrentItem * endGoal
-      // const newRotX = 1 * (2 * Math.PI);
-
-        console.log(newRotX)
-
-      const newScale = Math.sin(i);
-
-      dummy.position.set( x - offset, y - offset, 0 );
-      
-      dummy.rotation.set(newRotX, newRotX, 0);
-
-      //dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
-
+      changeItemByIndexXY(i, x, y)
+    
+    i++;
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
 
+}
+
+
+function changeItemByIndexXY(i, x, y) {
+  const offset = ( amount - 1 ) / 2;  
+  const amountForCurrentItem = (i / (amount * amount)) // i / total
+  const endGoal = (Math.PI * 2)
+  const newRotX = amountForCurrentItem * endGoal
+  dummy.position.set( x - offset, y - offset, 0 );
+  dummy.rotation.set(newRotX, newRotX, 0);
+  //dummy.scale.set(newScale, newScale, 1);
+  dummy.updateMatrix();
+  mesh.setMatrixAt(i, dummy.matrix );
 }
 
 function makeSize() {
   let i = 0;
-  const offset = ( amount - 1 ) / 2;
   
   const xCount = amount;
   const yCount = amount;
-  
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
+  for ( let y = 0; y < yCount; y ++){
+    for ( let x = 0; x < xCount; x ++ ) {
 
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const newRotX = i;
-      const newScale = Math.sin(i);
-
-      dummy.position.set( x - offset, y - offset, 0 );
+        updateItemByIndexAndXY(i, x, y)
       
-      dummy.rotation.set(newRotX, 0, 0);
-
-      dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
+        
+      i++;
 
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
 }
 
+
+function updateItemByIndexAndXY(i, x, y) {
+  const offset = ( amount - 1 ) / 2;  
+  const amountForCurrentItem = (i / (amount * amount)) // i / total
+  const endGoal = 10
+  const newScale = amountForCurrentItem * endGoal
+  dummy.position.set( x - offset, y - offset, 0 );
+  dummy.rotation.set(0, 0, 0);
+  dummy.scale.set(newScale, newScale, 1);
+  dummy.updateMatrix();
+  mesh.setMatrixAt(i, dummy.matrix );  
+}
 
 
 function initGui() {
