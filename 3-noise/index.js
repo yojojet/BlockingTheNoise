@@ -43,7 +43,7 @@ let tick = 0
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 
-const amount = 50;
+const amount = 100;
 const count = amount*amount;
 const dummy = new THREE.Object3D();
 
@@ -368,25 +368,26 @@ function makeThreed (time) {
       let output = [];
       for (let x = 0; x < size; x++) {
           for (let y = 0; y < size; y++) {
+            for (let z = 0; z < size; z++){
             const seed = time + 0.4
-            let n = noise.get(x/size+seed, y/size+seed)
+            let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
             // console.log(n)
-            output.push({ x:x, y:y, value: n});
+            output.push({ x:x, y:y, z:z, value: n});
             const newScale = n * n *10;
             
             
 
-            dummy.position.set( x - offset, y - offset, 0 );
+            dummy.position.set( x - offset, y - offset, z - offset );
       
             // dummy.rotation.set(newRotX, 0, 0);
       
-            dummy.scale.set(newScale, newScale, 1);
+            dummy.scale.set(newScale, newScale, newScale);
       
             dummy.updateMatrix();
             mesh.setMatrixAt(i++, dummy.matrix );
              }
           }
-      
+        }
   // console.table(output);
   // }
 
