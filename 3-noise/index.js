@@ -122,11 +122,6 @@ function initMesh() {
   mesh = new THREE.InstancedMesh( geometry, material, count );
   mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
   scene.add( mesh );
- 
-  const geometrie = new THREE.PlaneGeometry( 100, 100, 100, 100 );
-  const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
-  const plane = new THREE.Mesh( geometrie, materiaal );
-  scene.add( plane );
 
   // helper
 
