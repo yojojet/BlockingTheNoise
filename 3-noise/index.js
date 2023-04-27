@@ -349,30 +349,59 @@ function makeNoisy(time) {
 
 function makeThreed (time) {
   let i = 0;
-  const offset = ( amount - 1 ) / 2;
+  let size = 20;
+  const offset = ( size - 1 ) / 2;
   
  
-  const xCount = amount;
-  const yCount = amount;
-  const seed = time + 0.4
+  // const xCount = amount;
+  // const yCount = amount;
+  // const seed = time + 0.4
   
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
+  // for ( let x = 0; x < xCount; x ++ ) {
+    //  for ( let y = 0; y < yCount; y ++){
   
-      const n = new perlinNoise3d(x+seed, y+seed, 0.8 );
+      let noise = new perlinNoise3d();
+          noise.noiseSeed(Math.PI);
+          
+      // console.log(noise)
+      
+      let output = [];
+      for (let x = 0; x < size; x++) {
+          for (let y = 0; y < size; y++) {
+            const seed = time + 0.4
+            let n = noise.get(x/size+seed, y/size+seed)
+            // console.log(n)
+            output.push({ x:x, y:y, value: n});
+            const newScale = n * n *10;
+            
+            
 
-      const newScale = n * n *10;
+            dummy.position.set( x - offset, y - offset, 0 );
+      
+            // dummy.rotation.set(newRotX, 0, 0);
+      
+            dummy.scale.set(newScale, newScale, 1);
+      
+            dummy.updateMatrix();
+            mesh.setMatrixAt(i++, dummy.matrix );
+             }
+          }
+      
+  // console.table(output);
+  // }
+
+      // const newScale = n * n *10;
      
 
-      dummy.position.set( x - offset, y - offset, 0 );
+      // dummy.position.set( x - offset, y - offset, 0 );
 
-      dummy.scale.set(newScale, newScale, 1);
+      // dummy.scale.set(newScale, newScale, 1);
 
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
+      // dummy.updateMatrix();
+      // mesh.setMatrixAt(i++, dummy.matrix );
 
-    }
-  }
+    // }
+  
   mesh.instanceMatrix.needsUpdate = true;
 }
 
@@ -463,7 +492,8 @@ function animate(now) {
   tick++
   requestAnimationFrame(animate);
   // console.log(tick)
-  makeNoisy(tick*0.008)
+//  makeNoisy(tick*0.008)
+  makeThreed(tick*0.008)
   render();
   stats.update();
 }
