@@ -111,8 +111,8 @@ function init() {
 
 function initMesh() {
 
-  const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
-  // const geometry = new THREE.SphereGeometry( 0.2, 8, 8);
+  // const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
+  const geometry = new THREE.SphereGeometry( 0.1, 8, 8);
   geometry.computeVertexNormals();
   geometry.rotateX(Math.PI/2)
 
@@ -494,7 +494,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
 //  makeNoisy(tick*0.008)
-  makeThreed(tick*0.008)
+  makeThreed(tick*0.005)
   render();
   stats.update();
 }
