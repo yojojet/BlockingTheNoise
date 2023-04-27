@@ -151,9 +151,8 @@ console.log(plane.geometry.vertices)
   let i = 0;
   let zero = 0
   let n = zero
-  let newZcoord = zero
-  let size = newZcoord;
-  const offset = ( size - 1 ) / 2;
+
+  // const offset = ( size - 1 ) / 2;
   
  
   // const xCount = amount;
@@ -164,24 +163,38 @@ console.log(plane.geometry.vertices)
     //  for ( let y = 0; y < yCount; y ++){
   
       let noise = new perlinNoise3d();
-          noise.noiseSeed(Math.PI);
+          noise.noiseSeed(0);
           
-      // console.log(noise)
+      // coxnsole.log(noise)
       
       let output = [];
       let ary = plane.geometry.vertices;
 
      const numCount = ary.length
+     const numOfX = Math.sqrt(numCount)
+     const numOfY = numOfX
     
      let num = 0;
-      for ( let num = 0; num < numCount; num ++ ){
-      n = noise.get(ary[num].z/size+seed)
+     n = noise.get(1+time, 0+time, 0)
+    //  console.log(n)
+
+    let index = 0
+    let scale = 0.05
+    for ( let numY = 0; numY < numOfY; numY ++ ){
+      for ( let numX = 0; numX < numOfX; numX ++ ){
+        
+        // n = noise.get(1+seed,0,0)
+        n = noise.get(numX * scale + seed, numY * scale, 0)
+        // console.log(n)
+        ary[index].z = n * 30
+        index++
+
       }
+    }
       // console.log(ary[num]);
       plane.geometry.verticesNeedUpdate = true
       // output.push({ x:x, y:y, z:z, value: n});
-    newZcoord = n * n *10;
-n
+    
               
 
 
