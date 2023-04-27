@@ -34,8 +34,6 @@ let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
 
-console.log('plane', plane)
-
 const amount = 100;
 const count = amount*amount;
 const dummy = new THREE.Object3D();
@@ -125,12 +123,21 @@ const geometrie = new THREE.PlaneGeometry( 100, 100, 100, 100 );
 const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
 plane = new THREE.Mesh( geometrie, materiaal );
 scene.add( plane );
-plane.rotation.set(0.5*Math.PI, 0, 0);
+plane.rotation.set(-0.5*Math.PI, 0, 0);
 
 console.log(plane.geometry.vertices)
   // helper
   // let vertice = zero
   // vertice.position.set
+
+  let ary = plane.geometry.vertices;
+ const numCount = 10201
+ let num = 0
+  for ( let num = 0; num < numCount; num ++ ){
+  ary[num].z = 100
+  }
+  console.log(ary[num]);
+  plane.geometry.verticesNeedUpdate = true
 
   const axesHelper = new THREE.AxesHelper( 5 );
   scene.add( axesHelper );
