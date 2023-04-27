@@ -131,22 +131,12 @@ console.log(plane.geometry.vertices)
   // vertice.position.set
 
   let ary = plane.geometry.vertices;
- 
-  // Counter variable
-  let total = 0;
   
-  for (let i = 0; i < ary.length; i++) {
-      total++;
-  }
-  
-  console.log(total); // Output: 10201
-
-
- const numCount = total
+ const numCount = ary.length
 
  let num = 0;
   for ( let num = 0; num < numCount; num ++ ){
-  ary[num].z = 100
+  ary[num].z = 20
   }
   // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
@@ -157,35 +147,69 @@ console.log(plane.geometry.vertices)
 
 
 
- function makePlane(){
+ function makePlane(time){
   let i = 0;
-  const offset = ( amount - 1 ) / 2;
+  let zero = 0
+  let n = zero
+  let newZcoord = zero
+  let size = newZcoord;
+  const offset = ( size - 1 ) / 2;
   
-  const xCount = amount;
-  const yCount = amount;
+ 
+  // const xCount = amount;
+  // const yCount = amount;
+  const seed = time + 0.4
   
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
-
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const newRotX = i;
-      const newScale = Math.sin(i);
-     
-
-      // dummy.position.set( x - offset, y - offset, 0 );
+  // for ( let x = 0; x < xCount; x ++ ) {
+    //  for ( let y = 0; y < yCount; y ++){
+  
+      let noise = new perlinNoise3d();
+          noise.noiseSeed(Math.PI);
+          
+      // console.log(noise)
       
-      // dummy.rotation.set(newRotX, 0, 0);
+      let output = [];
+      let ary = plane.geometry.vertices;
 
-      // dummy.scale.set(newScale, newScale, 1);
+     const numCount = ary.length
+    
+     let num = 0;
+      for ( let num = 0; num < numCount; num ++ ){
+      n = noise.get(ary[num].z/size+seed)
+      }
+      // console.log(ary[num]);
+      plane.geometry.verticesNeedUpdate = true
+      // output.push({ x:x, y:y, z:z, value: n});
+    newZcoord = n * n *10;
+n
+              
 
-      // dummy.updateMatrix();
-      // mesh.setMatrixAt(i++, dummy.matrix );
 
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
+
+
+      // for (let x = 0; x < size; x++) {
+      //     for (let y = 0; y < size; y++) {
+      //       for (let z = 0; z < size; z++){
+      //       const seed = time + 0.4
+      //       let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
+      //       // console.log(n)
+      //       output.push({ x:x, y:y, z:z, value: n});
+      //       const newScale = n * n *10;
+            
+            
+
+      //       // dummy.position.set( x - offset, y - offset, z - offset );
+      
+      //       // dummy.rotation.set(newRotX, 0, 0);
+      
+      //       plane.scale.set(newScale, newScale, newScale);
+      
+      //       plane.updateMatrix();
+      //       // mesh.setMatrixAt(i++, plane.matrix );
+      //        }
+      //     }
+      //   }
+  // mesh.instanceMatrix.needsUpdate = true;
  }
 
 
@@ -266,7 +290,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
 //  makeNoisy(tick*0.008)
-  // makeThreed(tick*0.005)
+  makePlane(tick*0.005)
   render();
   stats.update();
 }
