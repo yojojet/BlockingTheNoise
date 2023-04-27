@@ -131,12 +131,24 @@ console.log(plane.geometry.vertices)
   // vertice.position.set
 
   let ary = plane.geometry.vertices;
- const numCount = 10201
- let num = 0
+ 
+  // Counter variable
+  let total = 0;
+  
+  for (let i = 0; i < ary.length; i++) {
+      total++;
+  }
+  
+  console.log(total); // Output: 10201
+
+
+ const numCount = total
+
+ let num = 0;
   for ( let num = 0; num < numCount; num ++ ){
   ary[num].z = 100
   }
-  console.log(ary[num]);
+  // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
 
   const axesHelper = new THREE.AxesHelper( 5 );
