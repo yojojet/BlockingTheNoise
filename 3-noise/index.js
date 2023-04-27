@@ -36,6 +36,7 @@ let params = {
   plotMushroom: () => {},
   plotUfo: () => {},
   plotNoisy: () => {},
+  plotThreed: () => {},
 };
 
 let tick = 0
@@ -346,6 +347,34 @@ function makeNoisy(time) {
   // console.log(greetingToJason)
 }
 
+function makeThreed (time) {
+  let i = 0;
+  const offset = ( amount - 1 ) / 2;
+  
+ 
+  const xCount = amount;
+  const yCount = amount;
+  const seed = time + 0.4
+  
+  for ( let x = 0; x < xCount; x ++ ) {
+     for ( let y = 0; y < yCount; y ++){
+  
+      const n = new perlinNoise3d(x+seed, y+seed, 0.8 );
+
+      const newScale = n * n *10;
+     
+
+      dummy.position.set( x - offset, y - offset, 0 );
+
+      dummy.scale.set(newScale, newScale, 1);
+
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+
+    }
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+}
 
 
 function initGui() {
@@ -356,6 +385,7 @@ function initGui() {
   params.plotMushrooms = makeMushroom
   params.plotUfo = makeUfo
   params.plotNoisy = makeNoisy
+  params.plotThreed = makeThreed
   gui.add({ controls: false}, 'controls').onChange((v)=>{
     controls.enabled = v
   })
@@ -364,9 +394,10 @@ function initGui() {
   gui.add(params, "plotSize")
   gui.add(params, "plotMushrooms")
   gui.add(params, "plotUfo")
-  gui.add(params, "plotNoisy")    
+  gui.add(params, "plotNoisy")
+  gui.add(params, "plotThreed")    
 
-  makeNoisy(0)
+  makeThreed(0)
 }
 
 //
