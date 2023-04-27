@@ -36,13 +36,14 @@ let params = {
   plotMushroom: () => {},
   plotUfo: () => {},
   plotNoisy: () => {},
+  plotThreed: () => {},
 };
 
 let tick = 0
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 
-const amount = 50;
+const amount = 100;
 const count = amount*amount;
 const dummy = new THREE.Object3D();
 
@@ -110,8 +111,8 @@ function init() {
 
 function initMesh() {
 
-  const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
-  // const geometry = new THREE.SphereGeometry( 0.2, 8, 8);
+  // const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
+  const geometry = new THREE.SphereGeometry( 0.1, 8, 8);
   geometry.computeVertexNormals();
   geometry.rotateX(Math.PI/2)
 
@@ -346,6 +347,64 @@ function makeNoisy(time) {
   // console.log(greetingToJason)
 }
 
+function makeThreed (time) {
+  let i = 0;
+  let size = 20;
+  const offset = ( size - 1 ) / 2;
+  
+ 
+  // const xCount = amount;
+  // const yCount = amount;
+  // const seed = time + 0.4
+  
+  // for ( let x = 0; x < xCount; x ++ ) {
+    //  for ( let y = 0; y < yCount; y ++){
+  
+      let noise = new perlinNoise3d();
+          noise.noiseSeed(Math.PI);
+          
+      // console.log(noise)
+      
+      let output = [];
+      for (let x = 0; x < size; x++) {
+          for (let y = 0; y < size; y++) {
+            for (let z = 0; z < size; z++){
+            const seed = time + 0.4
+            let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
+            // console.log(n)
+            output.push({ x:x, y:y, z:z, value: n});
+            const newScale = n * n *10;
+            
+            
+
+            dummy.position.set( x - offset, y - offset, z - offset );
+      
+            // dummy.rotation.set(newRotX, 0, 0);
+      
+            dummy.scale.set(newScale, newScale, newScale);
+      
+            dummy.updateMatrix();
+            mesh.setMatrixAt(i++, dummy.matrix );
+             }
+          }
+        }
+  // console.table(output);
+  // }
+
+      // const newScale = n * n *10;
+     
+
+      // dummy.position.set( x - offset, y - offset, 0 );
+
+      // dummy.scale.set(newScale, newScale, 1);
+
+      // dummy.updateMatrix();
+      // mesh.setMatrixAt(i++, dummy.matrix );
+
+    // }
+  
+  mesh.instanceMatrix.needsUpdate = true;
+}
 
 
 function initGui() {
@@ -356,6 +415,7 @@ function initGui() {
   params.plotMushrooms = makeMushroom
   params.plotUfo = makeUfo
   params.plotNoisy = makeNoisy
+  params.plotThreed = makeThreed
   gui.add({ controls: false}, 'controls').onChange((v)=>{
     controls.enabled = v
   })
@@ -364,9 +424,10 @@ function initGui() {
   gui.add(params, "plotSize")
   gui.add(params, "plotMushrooms")
   gui.add(params, "plotUfo")
-  gui.add(params, "plotNoisy")    
+  gui.add(params, "plotNoisy")
+  gui.add(params, "plotThreed")    
 
-  makeNoisy(0)
+  makeThreed(0)
 }
 
 //
@@ -432,7 +493,8 @@ function animate(now) {
   tick++
   requestAnimationFrame(animate);
   // console.log(tick)
-  makeNoisy(tick*0.008)
+//  makeNoisy(tick*0.008)
+  makeThreed(tick*0.005)
   render();
   stats.update();
 }
