@@ -26,17 +26,7 @@ import { GUI } from '/three/examples/jsm/libs/dat.gui.module.js';
 let params = {
   widthOffset: 0,
   boolean: false,
-  plotSpiral: () => {},
-  plotRing: () => {},
-  plotWave: () => {},
-  plotSines: () => {},
-  plotRectangle: () => {},
-  plotRotation: () => {},
-  plotSize: () => {},
-  plotMushroom: () => {},
-  plotUfo: () => {},
-  plotNoisy: () => {},
-  plotThreed: () => {},
+  plotPlane: () => {},
 };
 
 let tick = 0
@@ -134,304 +124,19 @@ scene.add( plane );
   scene.add( axesHelper );
 }
 
-function makeRectangle() {
-
-  let i = 0;
-  const offset = ( amount - 1 ) / 2;
-  
-  const xCount = amount;
-  const yCount = amount;
-  
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
-
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const newRotX = i;
-      const newScale = Math.sin(i);
-
-      dummy.position.set( x - offset, y - offset, 0 );
-      
-      dummy.rotation.set(newRotX, 0, 0);
-
-      dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
-
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-}
-
-function makeRotation(){
-  let i = 0;
-  const offset = (amount-1)/2;
-  
-  const xCount = amount;
-  const yCount = amount;
-  
-  for ( let y = 0; y < yCount; y ++){
-    for ( let x = 0; x < xCount; x ++ ) {
-
-      changeItemByIndexXY(i, x, y)
-    
-    i++;
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-}
 
 
-function changeItemByIndexXY(i, x, y) {
-  const offset = ( amount - 1 ) / 2;  
-  const amountForCurrentItem = (i / (amount * amount)) // i / total
-  const endGoal = (Math.PI * 2)
-  const newRotX = amountForCurrentItem * endGoal
-  dummy.position.set( x - offset, y - offset, 0 );
-  dummy.rotation.set(newRotX, newRotX, 0);
-  //dummy.scale.set(newScale, newScale, 1);
-  dummy.updateMatrix();
-  mesh.setMatrixAt(i, dummy.matrix );
-}
 
-function makeSize() {
-  let i = 0;
-  
-  const xCount = amount;
-  const yCount = amount;
-  for ( let y = 0; y < yCount; y ++){
-    for ( let x = 0; x < xCount; x ++ ) {
-
-        updateItemByIndexAndXY(i, x, y)
-      
-        
-      i++;
-
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-}
-
-
-function updateItemByIndexAndXY(i, x, y) {
-  const offset = ( amount - 1 ) / 2;  
-  const amountForCurrentItem = (i / (amount * amount)) // i / total
-  const endGoal = 10
-  const newScale = amountForCurrentItem * endGoal
-  dummy.position.set( x - offset, y - offset, 0 );
-  dummy.rotation.set(0, 0, 0);
-  dummy.scale.set(newScale, newScale, 1);
-  dummy.updateMatrix();
-  mesh.setMatrixAt(i, dummy.matrix );  
-}
-
-function makeMushroom(){
-  let i = 0;
-  const offset = ( amount - 1 ) / 2;
-  
-  const xCount = amount;
-  const yCount = amount;
-  
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
-
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const newRotX = i;
-      const newScale = Math.tan(i);
-
-      dummy.position.set( x - offset, y - offset, 0 );
-      
-      dummy.rotation.set(newRotX, 0, 0);
-
-      dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
-
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-}
-
-function makeUfo(){
-  let i = 0;
-  const offset = ( amount - 1 ) / 2;
-  
-  const xCount = amount;
-  const yCount = amount;
-  
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
-
-      const newX = x - offset;
-      const newY = y - offset;
-
-      const newRotX = i++;
-      const newScale = Math.tan(i);
-
-      dummy.position.set( x - offset, y - offset, 0 );
-      
-      dummy.rotation.set(newRotX, 0, 0);
-
-      dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
-
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-}
-
-// function sayHelloDirectly (name) {
-//   console.log('Hello! ' + name)
-// }
-
-// function getHello (name) {
-//   const greeting = 'Hello, '
-//   return greeting + name
-// }
-
-function makeNoisy(time) {
-
-  // let n1 = PerlinNoise.noise( 1, 1, .8 );
-  // let n2 = PerlinNoise.noise( 2, 1, .8 );
-  // let n3 = PerlinNoise.noise( 3, 1, .8 );
-  // console.log(n1)
-  // console.log(n2)
-  // console.log(n3)
-
-  let i = 0;
-  const offset = ( amount - 1 ) / 2;
-  
- 
-  const xCount = amount;
-  const yCount = amount;
-  const seed = time + 0.4
-  
-  for ( let x = 0; x < xCount; x ++ ) {
-     for ( let y = 0; y < yCount; y ++){
-
-      // const newX = x - offset;
-      // const newY = y - offset;
-
-      // const newRotX = i;
-  
-      const n = PerlinNoise.noise(x+seed, y+seed, 0.8 );
-      // const n = PerlinNoise.noise(x, y, seed);
-      const newScale = n * n *10;
-     
-
-      // console.log(newScale)
-      dummy.position.set( x - offset, y - offset, 0 );
-      //dummy.rotation.set(newRotX, 0, 0);
-      dummy.scale.set(newScale, newScale, 1);
-
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
-
-    }
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-
-  // sayHelloDirectly('Jason')
-  // sayHelloDirectly('Nick')
-  // sayHelloDirectly('Claire')
-  
-  // let greetingToNick = getHello('Nick')
-  // let greetingToJason = getHello('Jason')
-
-  // console.log(greetingToNick)
-  // console.log(greetingToJason)
-  // console.log(greetingToJason)
-  // console.log(greetingToJason)
-}
-
-function makeThreed (time) {
-  let i = 0;
-  let size = 20;
-  const offset = ( size - 1 ) / 2;
-  
- 
-  // const xCount = amount;
-  // const yCount = amount;
-  // const seed = time + 0.4
-  
-  // for ( let x = 0; x < xCount; x ++ ) {
-    //  for ( let y = 0; y < yCount; y ++){
-  
-      let noise = new perlinNoise3d();
-          noise.noiseSeed(Math.PI);
-          
-      // console.log(noise)
-      
-      let output = [];
-      for (let x = 0; x < size; x++) {
-          for (let y = 0; y < size; y++) {
-            for (let z = 0; z < size; z++){
-            const seed = time + 0.4
-            let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
-            // console.log(n)
-            output.push({ x:x, y:y, z:z, value: n});
-            const newScale = n * n *10;
-            
-            
-
-            dummy.position.set( x - offset, y - offset, z - offset );
-      
-            // dummy.rotation.set(newRotX, 0, 0);
-      
-            dummy.scale.set(newScale, newScale, newScale);
-      
-            dummy.updateMatrix();
-            mesh.setMatrixAt(i++, dummy.matrix );
-             }
-          }
-        }
-  // console.table(output);
-  // }
-
-      // const newScale = n * n *10;
-     
-
-      // dummy.position.set( x - offset, y - offset, 0 );
-
-      // dummy.scale.set(newScale, newScale, 1);
-
-      // dummy.updateMatrix();
-      // mesh.setMatrixAt(i++, dummy.matrix );
-
-    // }
-  
-  mesh.instanceMatrix.needsUpdate = true;
-}
 
 
 function initGui() {
   var gui = new GUI();
-  params.plotRotation = makeRotation
-  params.plotRectangle = makeRectangle
-  params.plotSize = makeSize
-  params.plotMushrooms = makeMushroom
-  params.plotUfo = makeUfo
-  params.plotNoisy = makeNoisy
-  params.plotThreed = makeThreed
+  params.plotPlane = makePlane
   gui.add({ controls: false}, 'controls').onChange((v)=>{
     controls.enabled = v
-  })
-  gui.add(params, "plotRectangle")
-  gui.add(params, "plotRotation")
-  gui.add(params, "plotSize")
-  gui.add(params, "plotMushrooms")
-  gui.add(params, "plotUfo")
-  gui.add(params, "plotNoisy")
-  gui.add(params, "plotThreed")    
-
-  makeThreed(0)
+  })  
+gui.add(params, "plotPlane")
+  makePlane(0)
 }
 
 //
@@ -498,7 +203,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
 //  makeNoisy(tick*0.008)
-  makeThreed(tick*0.005)
+  // makeThreed(tick*0.005)
   render();
   stats.update();
 }
