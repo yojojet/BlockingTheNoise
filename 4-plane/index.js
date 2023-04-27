@@ -29,17 +29,20 @@ let params = {
   plotPlane: () => {},
 };
 
-let tick = 0
+let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
+let plane = null;
+
+console.log('plane', plane)
 
 const amount = 100;
 const count = amount*amount;
 const dummy = new THREE.Object3D();
 
 init();
-initMesh()
-initGui()
+initMesh();
+initGui();
 animate(0);
 
 function init() {
@@ -104,7 +107,7 @@ function initMesh() {
   // const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
   const geometry = new THREE.SphereGeometry( 0.1, 8, 8);
   geometry.computeVertexNormals();
-  geometry.rotateX(Math.PI/2)
+  geometry.rotateX(Math.PI/2);
 
   const material = new THREE.MeshNormalMaterial({
     flatShading: true
@@ -113,16 +116,28 @@ function initMesh() {
   mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
   scene.add( mesh );
 
-  const geometrie = new THREE.PlaneGeometry( 100, 100, 100, 100 );
-const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
-const plane = new THREE.Mesh( geometrie, materiaal );
-scene.add( plane );
 
+// plane = 'hello';
+//   console.log('plane', plane)
+
+//
+const geometrie = new THREE.PlaneGeometry( 100, 100, 100, 100 );
+const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
+plane = new THREE.Mesh( geometrie, materiaal );
+scene.add( plane );
+plane.rotation.set(0.5*Math.PI, 0, 0);
+
+console.log(plane.geometry.vertices)
   // helper
+  // let vertice = zero
+  // vertice.position.set
 
   const axesHelper = new THREE.AxesHelper( 5 );
   scene.add( axesHelper );
 }
+
+
+
  function makePlane(){
   let i = 0;
   const offset = ( amount - 1 ) / 2;
@@ -138,6 +153,7 @@ scene.add( plane );
 
       const newRotX = i;
       const newScale = Math.sin(i);
+     
 
       // dummy.position.set( x - offset, y - offset, 0 );
       
@@ -151,8 +167,6 @@ scene.add( plane );
     }
   }
   mesh.instanceMatrix.needsUpdate = true;
-
-
  }
 
 
