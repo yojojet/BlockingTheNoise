@@ -11,12 +11,6 @@ function windowResized() {
 function draw() {
   // the draw() loops forever, until stopped  
   console.log('drawing')
-
-  // this helper function will run continuously
-  helperFunctionForDebugging()
-
-  // this draw-a-point function will run continuously
-  drawAPoint()
   
 }
 
@@ -37,6 +31,7 @@ function helperFunctionForDebugging() {
   // we can get basic input such as X and Y coordinates from the mouse cursor
   const x = mouseX;
   const y = mouseY;
+  console.log(x,y)
 }
 
 function drawAPoint() {
