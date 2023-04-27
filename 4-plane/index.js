@@ -139,14 +139,14 @@ scene.add( plane );
       const newRotX = i;
       const newScale = Math.sin(i);
 
-      dummy.position.set( x - offset, y - offset, 0 );
+      // dummy.position.set( x - offset, y - offset, 0 );
       
-      dummy.rotation.set(newRotX, 0, 0);
+      // dummy.rotation.set(newRotX, 0, 0);
 
-      dummy.scale.set(newScale, newScale, 1);
+      // dummy.scale.set(newScale, newScale, 1);
 
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i++, dummy.matrix );
+      // dummy.updateMatrix();
+      // mesh.setMatrixAt(i++, dummy.matrix );
 
     }
   }
