@@ -41,8 +41,8 @@ let params = {
 };
 
 // let speed = 0.005
-let number = 1
-let complexity = 30
+// let number = 1
+// let complexity = 30
 let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
@@ -211,7 +211,7 @@ function makeIsland(time) {
 
 
   let index = 0
-  let scale = 0.02 * number
+  let scale = 0.02 * params.number *0.1
 
 
 
@@ -222,7 +222,7 @@ function makeIsland(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * complexity - 16
+      ary[index].z = n * params.complexity *0.6 - 16
       index++
 
 
@@ -495,13 +495,13 @@ function initGui() {
   gui.add(params, "plotIsland")
   gui.add(params, "plotVulcano")
   gui.add(params, "speed", 0, 100, 1).onChange((v) => {
- speed = v * 0.1
+  // speed = v * 0.1
   })
   gui.add(params, "complexity", 0, 100, 1).onChange ((v) =>{
-complexity = v * 0.6
+// complexity = v * 0.6
   })
   gui.add(params, "number", 0, 100, 1).onChange ((v) =>{
-    number = v * 0.1
+    // number = v
   })
   makeIsland(0)
 }
