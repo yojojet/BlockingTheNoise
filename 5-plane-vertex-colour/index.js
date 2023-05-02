@@ -170,6 +170,9 @@ function initMesh() {
     new THREE.BufferAttribute(new Float32Array(colours), colorNumComponents));
 
 
+  plane.geometry.attributes.position.needsUpdate = true;
+  plane.geometry.attributes.color.needsUpdate = true;
+
   const axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
 }
@@ -217,24 +220,29 @@ function makePlane(time) {
     for (let numX = 0; numX < numOfX; numX++) {
 
       // n = noise.get(1+seed,0,0)
-      n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
+      n = noise.get(numX * scale + (seed * 1), numY * scale, 0)
 
       // positionArray[index+0] = positionArray[index+0] // x
       // positionArray[index+1] = positionArray[index+1] // y
 
-      const z = 50 * n - 10
+      const z = 50 * n - 25
 
       positionArray[index+2] = z
 
-      if (z > 10) {
-        colourArray[index] = n*3 + 1 // r
-        colourArray[index+1] = n*3 - 1  // g
-        colourArray[index+2] = n*.1 // b
-      } else {
-        colourArray[index] = n*.1 // r
-        colourArray[index+1] = n*.1 // g
-        colourArray[index+2] = n*5 - 1 // b
-      }
+      colourArray[index] = n*n*n *3 // r
+      colourArray[index+1] = n*n *2 // g
+      colourArray[index+2] = n // b
+
+      
+      // if (z > 10) {
+      //   colourArray[index] = n*3 + 1 // r
+      //   colourArray[index+1] = n*3 - 1  // g
+      //   colourArray[index+2] = n*.1 // b
+      // } else {
+      //   colourArray[index] = n*.1 // r
+      //   colourArray[index+1] = n*.1 // g
+      //   colourArray[index+2] = n*5 - 1 // b
+      // }
 
       index+=3
       // mesh.setColorAt(index, defaultColor.set(`hsl(0, 50%, ${(index+100)%100}%)`));
@@ -249,6 +257,8 @@ function makePlane(time) {
   // numX.needsUpdate = true;
   plane.geometry.verticesNeedUpdate = true
 
+  plane.geometry.attributes.position.needsUpdate = true;
+  plane.geometry.attributes.color.needsUpdate = true;
 
   // Play with colours
 
@@ -379,7 +389,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  // makePlane(tick * 0.005)
+  makePlane(tick * 0.005)
   render();
   stats.update();
 }
