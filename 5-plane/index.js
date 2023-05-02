@@ -5,10 +5,14 @@
 // import Stats from "/lib/three/examples/jsm/libs/stats.module.js";
 // import { GUI } from "/lib/three/examples/jsm/libs/dat.gui.module.js";
 
-import * as  THREE  from '/three/build/three.module.js';
-import { OrbitControls } from '/three/examples/jsm/controls/OrbitControls.js';
+import * as THREE from '/three/build/three.module.js';
+import {
+  OrbitControls
+} from '/three/examples/jsm/controls/OrbitControls.js';
 import Stats from '/three/examples/jsm/libs/stats.module.js';
-import { GUI } from '/three/examples/jsm/libs/dat.gui.module.js';
+import {
+  GUI
+} from '/three/examples/jsm/libs/dat.gui.module.js';
 //import { randFloatSpread } from '/three/src/math/MathUtils';
 
 /*
@@ -33,9 +37,10 @@ let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
+const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
-const count = amount*amount;
+const count = amount * amount;
 const dummy = new THREE.Object3D();
 
 init();
@@ -64,10 +69,12 @@ function init() {
   camera.position.set(5, 5, amount * 2);
 
   var loader = new THREE.TextureLoader();
-  
+
   // renderer
 
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
   renderer.setPixelRatio(1);
   renderer.setSize(window.innerWidth - params.widthOffset, window.innerHeight);
   // renderer.outputEncoding = THREE.sRGBEncoding;
@@ -103,141 +110,166 @@ function init() {
 function initMesh() {
 
   // const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
-  const geometry = new THREE.SphereGeometry( 0.1, 8, 8);
+  const geometry = new THREE.SphereGeometry(0.1, 8, 8);
   geometry.computeVertexNormals();
-  geometry.rotateX(Math.PI/2);
+  geometry.rotateX(Math.PI / 2);
 
   const material = new THREE.MeshNormalMaterial({
     flatShading: true
   });
-  mesh = new THREE.InstancedMesh( geometry, material, count );
-  mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
-  scene.add( mesh );
+  mesh = new THREE.InstancedMesh(geometry, material, count);
+  mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
+  scene.add(mesh);
 
 
-// plane = 'hello';
-//   console.log('plane', plane)
+  // plane = 'hello';
+  //   console.log('plane', plane)
 
-//
-const geometrie = new THREE.PlaneGeometry( 100, 100, 100, 100 );
-const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
-plane = new THREE.Mesh( geometrie, materiaal );
-scene.add( plane );
-plane.rotation.set(-0.5*Math.PI, 0, 0);
+  //
+  const geometrie = new THREE.PlaneGeometry(100, 100, 100, 100);
+  // const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
+  const materiaal = new THREE.MeshBasicMaterial({
+    vertexColors: THREE.FaceColors,
+    color: 0xffff00,
+    side: THREE.DoubleSide,
+    wireframe: true
+  });
+  plane = new THREE.Mesh(geometrie, materiaal);
+  scene.add(plane);
+  plane.rotation.set(-0.5 * Math.PI, 0, 0);
 
-console.log(plane.geometry.vertices)
+  console.log(plane.geometry.vertices)
   // helper
   // let vertice = zero
   // vertice.position.set
 
   let ary = plane.geometry.vertices;
-  
- const numCount = ary.length
 
- let num = 0;
-  for ( let num = 0; num < numCount; num ++ ){
-  ary[num].z = 20
+  const numCount = ary.length
+
+  let num = 0;
+  for (let num = 0; num < numCount; num++) {
+    ary[num].z = 20
   }
   // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
 
-  const axesHelper = new THREE.AxesHelper( 5 );
-  scene.add( axesHelper );
+  const axesHelper = new THREE.AxesHelper(5);
+  scene.add(axesHelper);
 }
 
 
 
- function makePlane(time){
+function makePlane(time) {
   let i = 0;
   let zero = 0
   let n = zero
 
   // const offset = ( size - 1 ) / 2;
-  
- 
+
+
   // const xCount = amount;
   // const yCount = amount;
   const seed = time + 0.4
-  
+
   // for ( let x = 0; x < xCount; x ++ ) {
-    //  for ( let y = 0; y < yCount; y ++){
-  
-      let noise = new perlinNoise3d();
-          noise.noiseSeed(0);
-          
-      // coxnsole.log(noise)
-      
-      let output = [];
-      let ary = plane.geometry.vertices;
+  //  for ( let y = 0; y < yCount; y ++){
 
-     const numCount = ary.length
-     const numOfX = Math.sqrt(numCount)
-     const numOfY = numOfX
-    
-     let num = 0;
-     n = noise.get(1+time, 0+time, 0)
-    //  console.log(n)
+  let noise = new perlinNoise3d();
+  noise.noiseSeed(0);
 
+  // coxnsole.log(noise)
 
-    // let geometry = noise.scene.get("myFile.stl").geometry   
-    let geometry = plane.geometry
-    const color = new THREE.Color(0xFF0000);
-    const colorAttribute = geometry.getAttribute("color");
-    console.log('colorAttribute', colorAttribute)
+  let output = [];
+  let ary = plane.geometry.vertices;
+
+  const numCount = ary.length
+  const numOfX = Math.sqrt(numCount)
+  const numOfY = numOfX
+
+  let num = 0;
+  n = noise.get(1 + time, 0 + time, 0)
+  //  console.log(n)
 
 
-    let index = 0
-    let scale = 0.05
-    for ( let numY = 0; numY < numOfY; numY ++ ){
-      for ( let numX = 0; numX < numOfX; numX ++ ){
-        
-        // n = noise.get(1+seed,0,0)
-        n = noise.get(numX * scale + seed, numY * scale, 0)
-        // console.log(n)
-        ary[index].z = n * 30
-        index++
+  // let geometry = noise.scene.get("myFile.stl").geometry   
 
-        // numY.setXYZ( idx, color.r, color.g, color.b )
-        // numX.setXYZ( idx, color.r, color.g, color.b )
-        
-      }
+  // const color = new THREE.Color(0xFF0000);
+  // const colorAttribute = geometry.getAttribute("color");
+  // console.log('colorAttribute', colorAttribute)
+
+
+  let index = 0
+  let scale = 0.05
+
+
+
+
+  for (let numY = 0; numY < numOfY; numY++) {
+    for (let numX = 0; numX < numOfX; numX++) {
+
+      // n = noise.get(1+seed,0,0)
+      n = noise.get(numX * scale + seed, numY * scale, 0)
+      // console.log(n)
+      ary[index].z = n * 30
+      index++
+
+
+      // mesh.setColorAt(index, defaultColor.set(`hsl(0, 50%, ${(index+100)%100}%)`));
+      // mesh.instanceColor.needsUpdate = true;
+
+      // numY.setXYZ( idx, color.r, color.g, color.b )
+      // numX.setXYZ( idx, color.r, color.g, color.b )
+
     }
-    numY.needsUpdate = true;
-    numX.needsUpdate = true;
-  
-      // console.log(ary[num]);
-      plane.geometry.verticesNeedUpdate = true
-      // output.push({ x:x, y:y, z:z, value: n});
+  }
+  // numY.needsUpdate = true;
+  // numX.needsUpdate = true;
+  plane.geometry.verticesNeedUpdate = true
+
+
+  // Play with colours
+
+  let geometry = plane.geometry
+  geometry.faces.forEach(function (face) {
+    const factor = geometry.vertices[face.a].z;
+    const redVal = Math.abs(factor) / 50
+    const greenVal = 0
+    const blueVal = 0
     
-              
+    face.color.setRGB(redVal, greenVal, blueVal);
+    // face.color.set( Math.random() * 0xffffff );
+  });
+  geometry.colorsNeedUpdate = true;
 
 
 
 
-      // for (let x = 0; x < size; x++) {
-      //     for (let y = 0; y < size; y++) {
-      //       for (let z = 0; z < size; z++){
-      //       const seed = time + 0.4
-      //       let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
-      //       // console.log(n)
-      //       output.push({ x:x, y:y, z:z, value: n});
-      //       const newScale = n * n *10;
-            
-            
 
-      //       // dummy.position.set( x - offset, y - offset, z - offset );
-      
-      //       // dummy.rotation.set(newRotX, 0, 0);
-      
-      //       plane.scale.set(newScale, newScale, newScale);
-      
-      //       plane.updateMatrix();
-      //       // mesh.setMatrixAt(i++, plane.matrix );
-      //        }
-      //     }
-      //   }
+  // for (let x = 0; x < size; x++) {
+  //     for (let y = 0; y < size; y++) {
+  //       for (let z = 0; z < size; z++){
+  //       const seed = time + 0.4
+  //       let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
+  //       // console.log(n)
+  //       output.push({ x:x, y:y, z:z, value: n});
+  //       const newScale = n * n *10;
+
+
+
+  //       // dummy.position.set( x - offset, y - offset, z - offset );
+
+  //       // dummy.rotation.set(newRotX, 0, 0);
+
+  //       plane.scale.set(newScale, newScale, newScale);
+
+  //       plane.updateMatrix();
+  //       // mesh.setMatrixAt(i++, plane.matrix );
+  //        }
+  //     }
+  //   }
   // mesh.instanceMatrix.needsUpdate = true;
- }
+}
 
 
 
@@ -246,10 +278,12 @@ console.log(plane.geometry.vertices)
 function initGui() {
   var gui = new GUI();
   params.plotPlane = makePlane
-  gui.add({ controls: false}, 'controls').onChange((v)=>{
+  gui.add({
+    controls: false
+  }, 'controls').onChange((v) => {
     controls.enabled = v
-  })  
-gui.add(params, "plotPlane")
+  })
+  gui.add(params, "plotPlane")
   makePlane(0)
 }
 
@@ -316,8 +350,8 @@ function animate(now) {
   tick++
   requestAnimationFrame(animate);
   // console.log(tick)
-//  makeNoisy(tick*0.008)
-  makePlane(tick*0.005)
+  //  makeNoisy(tick*0.008)
+  makePlane(tick * 0.005)
   render();
   stats.update();
 }
