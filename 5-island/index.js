@@ -30,14 +30,18 @@ import {
 let params = {
   widthOffset: 0,
   boolean: false,
-  plotIsland: () => {},
-  plotVulcano: () => {},
+  plotIsland: () => {
+  mode = "island"
+  },
+  plotVulcano: () => {mode = "vulcano"}
+  ,
 };
 
 let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
+let mode = "zero"
 const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
@@ -475,8 +479,8 @@ function makeVulcano(time) {
 
 function initGui() {
   var gui = new GUI();
-  params.plotIsland = makeIsland
-  params.plotVulcano = makeVulcano
+  // params.plotIsland = makeIsland
+  // params.plotVulcano = makeVulcano
   gui.add({
     controls: false
   }, 'controls').onChange((v) => {
@@ -551,8 +555,14 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
+ if (mode == "vulcano") {
   makeVulcano(tick * 0.005)
-  makeIsland(tick * 0.005)
+ }
+
+  else if (mode == "island") {
+    makeIsland(tick * 0.005)
+  }
+
   render();
   stats.update();
 }
