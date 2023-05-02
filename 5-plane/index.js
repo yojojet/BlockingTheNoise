@@ -130,7 +130,7 @@ function initMesh() {
   // const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
   const materiaal = new THREE.MeshBasicMaterial({
     vertexColors: THREE.FaceColors,
-    color: 0xffff00,
+    // color: 0xffff00,
     side: THREE.DoubleSide,
     flatShading: false,
     wireframe: false
@@ -150,7 +150,7 @@ function initMesh() {
 
   let num = 0;
   for (let num = 0; num < numCount; num++) {
-    ary[num].z = 20
+    ary[num].z = 0
   }
   // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
@@ -212,7 +212,7 @@ function makePlane(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * 30
+      ary[index].z = n * 30 - 16
       index++
 
 
@@ -241,11 +241,25 @@ function makePlane(time) {
     const blueVal = 0
     // face.color.setRGB(redVal, greenVal, blueVal);
 
-    // HSL
-    const hue = 0.5
-    const saturation = 0.5
-    const lightness = factor / 30
-    face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+    // HSL 0-1
+    if (factor > 0) {
+      const hue = 0.104
+      const saturation = 0.90
+      const lightness = factor / 30 + 0.5 
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+    else {
+      const hue = 0.53
+      const saturation = 0.74
+      const lightness = factor / 30 + 0.5 
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+
+    
   });
   geometry.colorsNeedUpdate = true;
 
