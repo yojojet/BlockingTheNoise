@@ -210,28 +210,41 @@ function makePlane(time) {
   const numOfY = numOfX
 
   let num = 0;
-  n = noise.get(1 + time, 0 + time, 0)
+  // n = noise.get(1 + time, 0 + time, 0)
   //  console.log(n)
 
   let index = 0
-  let scale = 0.02
+  let scale = 0.03
 
   for (let numY = 0; numY < numOfY; numY++) {
     for (let numX = 0; numX < numOfX; numX++) {
 
       // n = noise.get(1+seed,0,0)
-      n = noise.get(numX * scale + (seed * 1), numY * scale, 0)
+      const n0 = noise.get(
+        numX * scale,
+        numY * scale, 
+        0)
+
+      const n1 = noise.get(
+        numX * scale + (seed * .2) * n0,
+        numY * scale + (seed * .2) * n0, 
+        0)
+
+      n = noise.get(
+        numX * scale / n1,
+        numY * scale / n1, 
+        0)
 
       // positionArray[index+0] = positionArray[index+0] // x
       // positionArray[index+1] = positionArray[index+1] // y
 
-      const z = 50 * n - 25
+      const z = (50 * (n) - 25) * .2
 
       positionArray[index+2] = z
 
-      const hue = n
+      const hue = n * .1
       const saturation = 1
-      const lightness = n
+      const lightness = (-(z) * .3) * .2 + .1
       defaultColor.setHSL(hue,saturation,lightness)
 
       colourArray[index] = defaultColor.r // r
