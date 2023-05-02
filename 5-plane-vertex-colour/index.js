@@ -126,7 +126,9 @@ function initMesh() {
   //   console.log('plane', plane)
 
   //
-  const geometrie = new THREE.PlaneGeometry(100, 100, 100, 100);
+  // const geometrie = new THREE.PlaneGeometry(100, 100, 100, 100);
+  const geometrie = new THREE.PlaneBufferGeometry(100, 100, 100, 100);
+
   // const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
   const materiaal = new THREE.MeshBasicMaterial({
     vertexColors: THREE.FaceColors,
@@ -144,16 +146,29 @@ function initMesh() {
   // let vertice = zero
   // vertice.position.set
 
-  let ary = plane.geometry.vertices;
+  // let ary = plane.geometry.vertices;
 
-  const numCount = ary.length
+  // const numCount = ary.length
 
-  let num = 0;
-  for (let num = 0; num < numCount; num++) {
-    ary[num].z = 20
-  }
+  // let num = 0;
+  // for (let num = 0; num < numCount; num++) {
+  //   ary[num].z = 20
+  // }
   // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
+
+  const colorNumComponents = 3;
+  let positionArray = plane.geometry.getAttribute("position").array;
+  const numCount = positionArray.length/3 // <-- this is important
+  const colours = []
+  for (let index = 0; index < numCount; index++) {
+    colours.push(Math.random(),Math.random(),Math.random())
+  }
+
+  plane.geometry.setAttribute(
+    'color',
+    new THREE.BufferAttribute(new Float32Array(colours), colorNumComponents));
+
 
   const axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
@@ -178,13 +193,16 @@ function makePlane(time) {
 
   let noise = new perlinNoise3d();
   noise.noiseSeed(0);
-
   // coxnsole.log(noise)
 
   let output = [];
-  let ary = plane.geometry.vertices;
+  // let ary = plane.geometry.vertices;
+  let positionArray = plane.geometry.getAttribute("position").array;
+  let colourArray = plane.geometry.getAttribute("color").array;
 
-  const numCount = ary.length
+  
+  const numCount = positionArray.length/3 // <-- this is important
+
   const numOfX = Math.sqrt(numCount)
   const numOfY = numOfX
 
@@ -192,30 +210,33 @@ function makePlane(time) {
   n = noise.get(1 + time, 0 + time, 0)
   //  console.log(n)
 
-
-  // let geometry = noise.scene.get("myFile.stl").geometry   
-
-  // const color = new THREE.Color(0xFF0000);
-  // const colorAttribute = geometry.getAttribute("color");
-  // console.log('colorAttribute', colorAttribute)
-
-
   let index = 0
   let scale = 0.02
-
-
-
 
   for (let numY = 0; numY < numOfY; numY++) {
     for (let numX = 0; numX < numOfX; numX++) {
 
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
-      // console.log(n)
-      ary[index].z = n * 50 - 10
-      index++
 
+      // positionArray[index+0] = positionArray[index+0] // x
+      // positionArray[index+1] = positionArray[index+1] // y
 
+      const z = 50 * n - 10
+
+      positionArray[index+2] = z
+
+      if (z > 10) {
+        colourArray[index] = n*3 + 1 // r
+        colourArray[index+1] = n*3 - 1  // g
+        colourArray[index+2] = n*.1 // b
+      } else {
+        colourArray[index] = n*.1 // r
+        colourArray[index+1] = n*.1 // g
+        colourArray[index+2] = n*5 - 1 // b
+      }
+
+      index+=3
       // mesh.setColorAt(index, defaultColor.set(`hsl(0, 50%, ${(index+100)%100}%)`));
       // mesh.instanceColor.needsUpdate = true;
 
@@ -231,23 +252,23 @@ function makePlane(time) {
 
   // Play with colours
 
-  let geometry = plane.geometry
-  geometry.faces.forEach(function (face) {
-    const factor = geometry.vertices[face.a].z;
+  // let geometry = plane.geometry
+  // geometry.faces.forEach(function (face) {
+  //   const factor = geometry.vertices[face.a].z;
     
-    // RGB
-    const redVal = factor / 30
-    const greenVal = 0.5
-    const blueVal = 0
-    // face.color.setRGB(redVal, greenVal, blueVal);
+  //   // RGB
+  //   const redVal = factor / 30
+  //   const greenVal = 0.5
+  //   const blueVal = 0
+  //   // face.color.setRGB(redVal, greenVal, blueVal);
 
-    // HSL
-    const hue = 0.5
-    const saturation = 0
-    const lightness = factor / 30
-    face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
-  });
-  geometry.colorsNeedUpdate = true;
+  //   // HSL
+  //   const hue = 0.5
+  //   const saturation = 0
+  //   const lightness = factor / 30
+  //   face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+  // });
+  // geometry.colorsNeedUpdate = true;
 
 
 
@@ -358,7 +379,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  makePlane(tick * 0.005)
+  // makePlane(tick * 0.005)
   render();
   stats.update();
 }
