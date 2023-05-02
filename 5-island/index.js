@@ -30,18 +30,24 @@ import {
 let params = {
   widthOffset: 0,
   boolean: false,
-  plotPlane: () => {},
+  plotIsland: () => {
+  mode = "island"
+  },
+  plotVulcano: () => {mode = "vulcano"}
+  ,
 };
 
 let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
+let mode = "zero"
 const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
 const count = amount * amount;
 const dummy = new THREE.Object3D();
+const gridSize = 200
 
 init();
 initMesh();
@@ -126,7 +132,7 @@ function initMesh() {
   //   console.log('plane', plane)
 
   //
-  const geometrie = new THREE.PlaneGeometry(100, 100, 100, 100);
+  const geometrie = new THREE.PlaneGeometry(100, 100, gridSize, gridSize);
   // const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
   const materiaal = new THREE.MeshBasicMaterial({
     vertexColors: THREE.FaceColors,
@@ -150,7 +156,7 @@ function initMesh() {
 
   let num = 0;
   for (let num = 0; num < numCount; num++) {
-    ary[num].z = 20
+    ary[num].z = 0
   }
   // console.log(ary[num]);
   plane.geometry.verticesNeedUpdate = true
@@ -159,9 +165,7 @@ function initMesh() {
   scene.add(axesHelper);
 }
 
-
-
-function makePlane(time) {
+function makeIsland(time) {
   let i = 0;
   let zero = 0
   let n = zero
@@ -212,7 +216,7 @@ function makePlane(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * 50 - 10
+      ary[index].z = n * 30 - 16
       index++
 
 
@@ -241,11 +245,202 @@ function makePlane(time) {
     const blueVal = 0
     // face.color.setRGB(redVal, greenVal, blueVal);
 
-    // HSL
-    const hue = 0.5
-    const saturation = 0
-    const lightness = factor / 30
-    face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+    // HSL 0-1
+    if (factor > 4) {
+      const hue = 0.27
+      const saturation = 0.95
+      const lightness = factor / 30 + 0.15
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+      // const hue = 0.072
+      // const saturation = 0.80
+      // const lightness = factor / 30 + 0.3
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+    else if (factor > 0){
+      const hue = 0.104
+      const saturation = 0.90
+      const lightness = factor / 30 + 0.5 
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+     
+      // const hue = 0.05
+      // const saturation = 0.97
+      // const lightness = factor / 30 + 0.1
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+    else {
+      const hue = 0.53
+      const saturation = 0.74
+      const lightness = factor / 30 + 0.5 
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+      // const hue = 0.083
+      // const saturation = 1
+      // const lightness = factor / 30 + 0.20
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+
+    
+  });
+  geometry.colorsNeedUpdate = true;
+
+
+
+
+
+  // for (let x = 0; x < size; x++) {
+  //     for (let y = 0; y < size; y++) {
+  //       for (let z = 0; z < size; z++){
+  //       const seed = time + 0.4
+  //       let n = noise.get(x/size+seed, y/size+seed, z/size+seed)
+  //       // console.log(n)
+  //       output.push({ x:x, y:y, z:z, value: n});
+  //       const newScale = n * n *10;
+
+
+
+  //       // dummy.position.set( x - offset, y - offset, z - offset );
+
+  //       // dummy.rotation.set(newRotX, 0, 0);
+
+  //       plane.scale.set(newScale, newScale, newScale);
+
+  //       plane.updateMatrix();
+  //       // mesh.setMatrixAt(i++, plane.matrix );
+  //        }
+  //     }
+  //   }
+  // mesh.instanceMatrix.needsUpdate = true;
+}
+
+function makeVulcano(time) {
+  let i = 0;
+  let zero = 0
+  let n = zero
+
+  // const offset = ( size - 1 ) / 2;
+
+
+  // const xCount = amount;
+  // const yCount = amount;
+  const seed = time + 0.4
+
+  // for ( let x = 0; x < xCount; x ++ ) {
+  //  for ( let y = 0; y < yCount; y ++){
+
+  let noise = new perlinNoise3d();
+  noise.noiseSeed(0);
+
+  // coxnsole.log(noise)
+
+  let output = [];
+  let ary = plane.geometry.vertices;
+
+  const numCount = ary.length
+  const numOfX = Math.sqrt(numCount)
+  const numOfY = numOfX
+
+  let num = 0;
+  n = noise.get(1 + time, 0 + time, 0)
+  //  console.log(n)
+
+
+  // let geometry = noise.scene.get("myFile.stl").geometry   
+
+  // const color = new THREE.Color(0xFF0000);
+  // const colorAttribute = geometry.getAttribute("color");
+  // console.log('colorAttribute', colorAttribute)
+
+
+  let index = 0
+  let scale = 0.05
+
+
+
+
+  for (let numY = 0; numY < numOfY; numY++) {
+    for (let numX = 0; numX < numOfX; numX++) {
+
+      // n = noise.get(1+seed,0,0)
+      n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
+      // console.log(n)
+      ary[index].z = n * 30 - 16
+      index++
+
+
+      // mesh.setColorAt(index, defaultColor.set(`hsl(0, 50%, ${(index+100)%100}%)`));
+      // mesh.instanceColor.needsUpdate = true;
+
+      // numY.setXYZ( idx, color.r, color.g, color.b )
+      // numX.setXYZ( idx, color.r, color.g, color.b )
+
+    }
+  }
+  // numY.needsUpdate = true;
+  // numX.needsUpdate = true;
+  plane.geometry.verticesNeedUpdate = true
+
+
+  // Play with colours
+
+  let geometry = plane.geometry
+  geometry.faces.forEach(function (face) {
+    const factor = geometry.vertices[face.a].z;
+    
+    // RGB
+    const redVal = factor / 30
+    const greenVal = 0.5
+    const blueVal = 0
+    // face.color.setRGB(redVal, greenVal, blueVal);
+
+    // HSL 0-1
+    if (factor > 4) {
+      // const hue = 0.27
+      // const saturation = 0.95
+      // const lightness = factor / 30 + 0.5 
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+      const hue = 0.072
+      const saturation = 0.80
+      const lightness = factor / 30 + 0.3
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+    else if (factor > 0){
+      // const hue = 0.104
+      // const saturation = 0.90
+      // const lightness = factor / 30 + 0.5 
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+     
+      const hue = 0.072
+      const saturation = 0.97
+      const lightness = factor / 30 + 0.07
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+    else {
+      // const hue = 0.53
+      // const saturation = 0.74
+      // const lightness = factor / 30 + 0.5 
+      // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+      const hue = 0.083
+      const saturation = 1
+      const lightness = factor / 30 + 0.1
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+
+    }
+
+
+    
   });
   geometry.colorsNeedUpdate = true;
 
@@ -284,14 +479,16 @@ function makePlane(time) {
 
 function initGui() {
   var gui = new GUI();
-  params.plotPlane = makePlane
+  // params.plotIsland = makeIsland
+  // params.plotVulcano = makeVulcano
   gui.add({
     controls: false
   }, 'controls').onChange((v) => {
     controls.enabled = v
   })
-  gui.add(params, "plotPlane")
-  makePlane(0)
+  gui.add(params, "plotIsland")
+  gui.add(params, "plotVulcano")
+  makeIsland(0)
 }
 
 //
@@ -358,7 +555,14 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  makePlane(tick * 0.005)
+ if (mode == "vulcano") {
+  makeVulcano(tick * 0.005)
+ }
+
+  else if (mode == "island") {
+    makeIsland(tick * 0.005)
+  }
+
   render();
   stats.update();
 }
