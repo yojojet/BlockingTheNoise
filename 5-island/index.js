@@ -249,7 +249,7 @@ function makeIsland(time) {
     if (factor > 4) {
       const hue = 0.27
       const saturation = 0.95
-      const lightness = factor / 30 + 0.5 
+      const lightness = factor / 30 + 0.15
       face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
 
       // const hue = 0.072
@@ -419,9 +419,9 @@ function makeVulcano(time) {
       // const lightness = factor / 30 + 0.5 
       // face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
      
-      const hue = 0.05
+      const hue = 0.072
       const saturation = 0.97
-      const lightness = factor / 30 + 0.1
+      const lightness = factor / 30 + 0.07
       face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
 
     }
@@ -434,7 +434,7 @@ function makeVulcano(time) {
 
       const hue = 0.083
       const saturation = 1
-      const lightness = factor / 30 + 0.20
+      const lightness = factor / 30 + 0.1
       face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
 
     }
