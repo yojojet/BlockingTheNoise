@@ -42,6 +42,7 @@ const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 const amount = 100;
 const count = amount * amount;
 const dummy = new THREE.Object3D();
+const gridSize = 300
 
 init();
 initMesh();
@@ -126,7 +127,7 @@ function initMesh() {
   //   console.log('plane', plane)
 
   //
-  const geometrie = new THREE.PlaneGeometry(100, 100, 100, 100);
+  const geometrie = new THREE.PlaneGeometry(100, 100, gridSize, gridSize);
   // const materiaal = new THREE.MeshNormalMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
   const materiaal = new THREE.MeshBasicMaterial({
     vertexColors: THREE.FaceColors,
@@ -242,12 +243,19 @@ function makePlane(time) {
     // face.color.setRGB(redVal, greenVal, blueVal);
 
     // HSL 0-1
-    if (factor > 0) {
+    if (factor > 4) {
+      const hue = 0.27
+      const saturation = 0.95
+      const lightness = factor / 30 + 0.5 
+      face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
+    }
+
+    else if (factor > 0){
       const hue = 0.104
       const saturation = 0.90
       const lightness = factor / 30 + 0.5 
       face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
-
+      
     }
 
     else {
