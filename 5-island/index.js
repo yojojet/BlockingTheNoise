@@ -555,6 +555,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
+  makeIsland(tick * 0.005)
  if (mode == "vulcano") {
   makeVulcano(tick * 0.005)
  }
