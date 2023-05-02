@@ -132,7 +132,8 @@ function initMesh() {
     vertexColors: THREE.FaceColors,
     color: 0xffff00,
     side: THREE.DoubleSide,
-    wireframe: true
+    flatShading: false,
+    wireframe: false
   });
   plane = new THREE.Mesh(geometrie, materiaal);
   scene.add(plane);
@@ -209,7 +210,7 @@ function makePlane(time) {
     for (let numX = 0; numX < numOfX; numX++) {
 
       // n = noise.get(1+seed,0,0)
-      n = noise.get(numX * scale + seed, numY * scale, 0)
+      n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
       ary[index].z = n * 30
       index++
@@ -233,12 +234,18 @@ function makePlane(time) {
   let geometry = plane.geometry
   geometry.faces.forEach(function (face) {
     const factor = geometry.vertices[face.a].z;
-    const redVal = Math.abs(factor) / 50
-    const greenVal = 0
-    const blueVal = 0
     
-    face.color.setRGB(redVal, greenVal, blueVal);
-    // face.color.set( Math.random() * 0xffffff );
+    // RGB
+    const redVal = factor / 30
+    const greenVal = 0.5
+    const blueVal = 0
+    // face.color.setRGB(redVal, greenVal, blueVal);
+
+    // HSL
+    const hue = 0.5
+    const saturation = 0.5
+    const lightness = factor / 30
+    face.color.setHSL(hue, saturation, lightness); // https://threejs.org/docs/#api/en/math/Color
   });
   geometry.colorsNeedUpdate = true;
 
