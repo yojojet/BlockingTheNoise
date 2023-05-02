@@ -365,7 +365,7 @@ function makeVulcano(time) {
 
 
   let index = 0
-  let scale = 0.05 * number
+  let scale = 0.05 * params.number *0.1
 
 
 
@@ -376,7 +376,7 @@ function makeVulcano(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * complexity - 16
+      ary[index].z = n * params.complexity *0.6 - 16
       index++
 
 
