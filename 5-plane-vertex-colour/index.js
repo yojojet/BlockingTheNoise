@@ -229,9 +229,14 @@ function makePlane(time) {
 
       positionArray[index+2] = z
 
-      colourArray[index] = n*n*n *3 // r
-      colourArray[index+1] = n*n *2 // g
-      colourArray[index+2] = n // b
+      const hue = n
+      const saturation = 1
+      const lightness = n
+      defaultColor.setHSL(hue,saturation,lightness)
+
+      colourArray[index] = defaultColor.r // r
+      colourArray[index+1] = defaultColor.g // g
+      colourArray[index+2] = defaultColor.b // b
 
       
       // if (z > 10) {
