@@ -28,20 +28,26 @@ import {
 // Real-time Cloth Animation http://www.darwin3d.com/gamedev/articles/col0599.pdf
 
 let params = {
+  speed: 0.005,
+  complexity: 50,
+  number : 10,
   widthOffset: 0,
   boolean: false,
   plotIsland: () => {
-  mode = "island"
+    mode = "island"
   },
   plotVulcano: () => {mode = "vulcano"}
   ,
 };
 
+// let speed = 0.005
+let number = 1
+let complexity = 30
 let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
-let mode = "zero"
+let mode = "island"
 const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
@@ -205,7 +211,7 @@ function makeIsland(time) {
 
 
   let index = 0
-  let scale = 0.02
+  let scale = 0.02 * number
 
 
 
@@ -216,7 +222,7 @@ function makeIsland(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * 30 - 16
+      ary[index].z = n * complexity - 16
       index++
 
 
@@ -359,7 +365,7 @@ function makeVulcano(time) {
 
 
   let index = 0
-  let scale = 0.05
+  let scale = 0.05 * number
 
 
 
@@ -370,7 +376,7 @@ function makeVulcano(time) {
       // n = noise.get(1+seed,0,0)
       n = noise.get(numX * scale + (seed * 0.1), numY * scale, 0)
       // console.log(n)
-      ary[index].z = n * 30 - 16
+      ary[index].z = n * complexity - 16
       index++
 
 
@@ -488,6 +494,15 @@ function initGui() {
   })
   gui.add(params, "plotIsland")
   gui.add(params, "plotVulcano")
+  gui.add(params, "speed", 0, 100, 1).onChange((v) => {
+ speed = v * 0.1
+  })
+  gui.add(params, "complexity", 0, 100, 1).onChange ((v) =>{
+complexity = v * 0.6
+  })
+  gui.add(params, "number", 0, 100, 1).onChange ((v) =>{
+    number = v * 0.1
+  })
   makeIsland(0)
 }
 
@@ -555,13 +570,13 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  makeIsland(tick * 0.005)
  if (mode == "vulcano") {
-  makeVulcano(tick * 0.005)
+  makeVulcano(tick * params.speed) 
+  // tick * 0.0005
  }
 
   else if (mode == "island") {
-    makeIsland(tick * 0.005)
+    makeIsland(tick * params.speed)
   }
 
   render();
