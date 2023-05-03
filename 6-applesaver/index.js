@@ -337,7 +337,6 @@ function makeApplesaver(time) {
 
 
 
-
 function makeRectangle(time) {
 
   let i = 0;
