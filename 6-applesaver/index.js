@@ -51,6 +51,7 @@ init();
 initMesh();
 initGui();
 animate(0);
+makeRectangle();
 
 function init() {
   container = document.createElement("div");
@@ -335,6 +336,86 @@ function makeApplesaver(time) {
 
 
 
+function makeRectangle(time) {
+
+  let i = 0;
+  let zero = 0
+  let n = zero
+  const offset = ( amount - 1 ) / 2;
+  
+  const xCount = amount;
+  const yCount = amount;
+  
+  let noise = new perlinNoise3d();
+  noise.noiseSeed(0);
+
+  let scale = 0.001 * params.number
+  const seed = time + 0.4
+
+  for ( let x = 0; x < xCount; x ++ ) {
+     for ( let y = 0; y < yCount; y ++){
+
+      const numX = x
+      const numY = y
+ // n = noise.get(1+seed,0,0)
+ const n0 = noise.get(
+  numX * scale,
+  numY * scale, 
+  0)
+
+const n1 = noise.get(
+  numX * scale + (seed * .2) * n0,
+  numY * scale + (seed * .2) * n0, 
+  0)
+
+n = noise.get(
+  numX * scale / n1,
+  numY * scale / n1, 
+  0)
+
+// positionArray[index+0] = positionArray[index+0] // x
+// positionArray[index+1] = positionArray[index+1] // y
+
+const z = (50 * (n) - 25) * .025 * params.complexity
+
+// positionArray[index+2] = z
+
+const hue = n * .1 * (params.colouring/2.5)
+const saturation = 1
+const lightness = (-(z) * .3) * .2 + .1
+defaultColor.setHSL(hue,saturation,lightness)
+
+// colourArray[index] = defaultColor.r // r
+// colourArray[index+1] = defaultColor.g // g
+// colourArray[index+2] = defaultColor.b // b
+
+
+
+
+
+
+      const newX = x - offset;
+      const newY = y - offset;
+
+      const newRotX = i;
+      const newScale = Math.sin(i);
+
+      dummy.position.set( x - offset, y - offset, 0 );
+      
+      dummy.rotation.set(newRotX, 0, 0);
+
+      dummy.scale.set(newScale, newScale, 1);
+
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i++, dummy.matrix );
+
+    }
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+}
+
+
+
 function initGui() {
   var gui = new GUI();
   params.plotApplesaver = makeApplesaver
@@ -424,6 +505,7 @@ function animate(now) {
   // console.log(tick)
   //  makeNoisy(tick*0.008)
   makeApplesaver(tick * 0.005 * params.speed)
+  makeRectangle(tick * 0.005 * params.speed)
   render();
   stats.update();
 }
