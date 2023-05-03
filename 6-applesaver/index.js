@@ -31,6 +31,7 @@ let params = {
   speed: 1,
   complexity: 10,
   number : 30,
+  colouring : 1,
   widthOffset: 0,
   boolean: false,
   plotApplesaver: () => {},
@@ -245,7 +246,7 @@ function makeApplesaver(time) {
 
       positionArray[index+2] = z
 
-      const hue = n * .1
+      const hue = n * .1 * (params.colouring/2.5)
       const saturation = 1
       const lightness = (-(z) * .3) * .2 + .1
       defaultColor.setHSL(hue,saturation,lightness)
@@ -351,6 +352,9 @@ function initGui() {
     })
     gui.add(params, "number", 0, 100, 1).onChange ((v) =>{
       // number = v
+    })
+    gui.add(params, "colouring", 0, 100, 1).onChange ((v) =>{
+    
     })
   makeApplesaver(0)
 }
