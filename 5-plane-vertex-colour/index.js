@@ -214,7 +214,7 @@ function makePlane(time) {
   //  console.log(n)
 
   let index = 0
-  let scale = 0.03
+  let scale = 0.02
 
   for (let numY = 0; numY < numOfY; numY++) {
     for (let numX = 0; numX < numOfX; numX++) {
@@ -238,13 +238,16 @@ function makePlane(time) {
       // positionArray[index+0] = positionArray[index+0] // x
       // positionArray[index+1] = positionArray[index+1] // y
 
-      const z = (50 * (n) - 25) * .2
+      const z = (50 * (n) - 25) * .1
+      const light = (50 * (n) - 25) * .1
 
-      positionArray[index+2] = z
+      // positionArray[index+0] = numX + z*5
+      // positionArray[index+1] = numY + z*5
+      positionArray[index+2] = z*5
 
       const hue = n * .1
       const saturation = 1
-      const lightness = (-(z) * .3) * .2 + .1
+      const lightness = -light
       defaultColor.setHSL(hue,saturation,lightness)
 
       colourArray[index] = defaultColor.r // r
