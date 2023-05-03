@@ -14,7 +14,7 @@ import {
   GUI
 } from '/three/examples/jsm/libs/dat.gui.module.js';
 //import { randFloatSpread } from '/three/src/math/MathUtils';
-import { createNoise2D } from 'simplex-noise';
+// import { createNoise2D } from 'simplex-noise';
 
 /*
  * Cloth Simulation using a relaxed constraints solver
