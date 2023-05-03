@@ -14,6 +14,7 @@ import {
   GUI
 } from '/three/examples/jsm/libs/dat.gui.module.js';
 //import { randFloatSpread } from '/three/src/math/MathUtils';
+import { createNoise2D } from 'simplex-noise';
 
 /*
  * Cloth Simulation using a relaxed constraints solver
@@ -114,16 +115,17 @@ function init() {
 
 function initMesh() {
 
-  // const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
-  const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+  const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 12);
+  // const geometry = new THREE.SphereGeometry(0.1, 8, 8);
   geometry.computeVertexNormals();
-  geometry.rotateX(Math.PI / 2);
+  // geometry.rotateX(Math.PI / 2);
 
   const material = new THREE.MeshNormalMaterial({
     flatShading: true
   });
   mesh = new THREE.InstancedMesh(geometry, material, count);
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
+  mesh.rotateX(Math.PI/2)
   scene.add(mesh);
 
 
@@ -397,14 +399,14 @@ defaultColor.setHSL(hue,saturation,lightness)
       const newX = x - offset;
       const newY = y - offset;
 
-      const newRotX = i;
-      const newScale = Math.sin(i);
+      const newRotX = 0 + Math.PI/2;
+      const newScale = z;
 
-      dummy.position.set( x - offset, y - offset, 0 );
-      
-      dummy.rotation.set(newRotX, 0, 0);
+      dummy.position.set(x - offset, y - offset, -z);
+    
+      dummy.rotation.set(newRotX, tick, tick);
 
-      dummy.scale.set(newScale, newScale, 1);
+      dummy.scale.set(newScale, 1, 1);
 
       dummy.updateMatrix();
       mesh.setMatrixAt(i++, dummy.matrix );

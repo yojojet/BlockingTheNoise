@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "alea": "^1.0.1",
+    "simplex-noise": "^4.0.1",
     "three": "^0.152.2"
   },
   "devDependencies": {
