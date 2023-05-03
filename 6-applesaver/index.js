@@ -28,6 +28,9 @@ import {
 // Real-time Cloth Animation http://www.darwin3d.com/gamedev/articles/col0599.pdf
 
 let params = {
+  speed: 1,
+  complexity: 10,
+  number : 30,
   widthOffset: 0,
   boolean: false,
   plotApplesaver: () => {},
@@ -214,7 +217,7 @@ function makeApplesaver(time) {
   //  console.log(n)
 
   let index = 0
-  let scale = 0.03
+  let scale = 0.001 * params.number
 
   for (let numY = 0; numY < numOfY; numY++) {
     for (let numX = 0; numX < numOfX; numX++) {
@@ -238,7 +241,7 @@ function makeApplesaver(time) {
       // positionArray[index+0] = positionArray[index+0] // x
       // positionArray[index+1] = positionArray[index+1] // y
 
-      const z = (50 * (n) - 25) * .2
+      const z = (50 * (n) - 25) * .025 * params.complexity
 
       positionArray[index+2] = z
 
@@ -340,6 +343,15 @@ function initGui() {
     controls.enabled = v
   })
   gui.add(params, "plotApplesaver")
+  gui.add(params, "speed", 0, 100, 1).onChange((v) => {
+    // speed = v * 0.1
+    })
+    gui.add(params, "complexity", 0, 100, 1).onChange ((v) =>{
+  // complexity = v * 0.6
+    })
+    gui.add(params, "number", 0, 100, 1).onChange ((v) =>{
+      // number = v
+    })
   makeApplesaver(0)
 }
 
@@ -407,7 +419,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  makeApplesaver(tick * 0.005)
+  makeApplesaver(tick * 0.005 * params.speed)
   render();
   stats.update();
 }
