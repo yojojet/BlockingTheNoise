@@ -120,8 +120,15 @@ function initMesh() {
   geometry.computeVertexNormals();
   // geometry.rotateX(Math.PI / 2);
 
-  const material = new THREE.MeshNormalMaterial({
-    flatShading: true
+  // const material = new THREE.MeshNormalMaterial({
+  //   flatShading: true
+  // });
+  const material = new THREE.MeshBasicMaterial({
+    // vertexColors: THREE.FaceColors,
+    color: 0xffffff,
+    side: THREE.DoubleSide,
+    flatShading: false,
+    wireframe: false
   });
   mesh = new THREE.InstancedMesh(geometry, material, count);
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
@@ -251,7 +258,7 @@ function makeApplesaver(time) {
 
       const hue = n * .1 * (params.colouring/2.5)
       const saturation = 1
-      const lightness = (-(z) * .3) * .2 + .1
+      const lightness = (-(z) * .3) * .2 
       defaultColor.setHSL(hue,saturation,lightness)
 
       colourArray[index] = defaultColor.r // r
@@ -383,7 +390,7 @@ const z = (50 * (n) - 25) * .025 * params.complexity
 
 const hue = n * .1 * (params.colouring/2.5)
 const saturation = 1
-const lightness = (-(z) * .3) * .2 + .1
+const lightness = (-(z) * .3) * .2 + .2
 defaultColor.setHSL(hue,saturation,lightness)
 
 // colourArray[index] = defaultColor.r // r
@@ -398,17 +405,27 @@ defaultColor.setHSL(hue,saturation,lightness)
       const newX = x - offset;
       const newY = y - offset;
 
-      const newRotX = 0 + Math.PI/2;
-      const newScale = z;
+      const degree = n * 10 - 5
+      const newRotX = degree * 20 * Math.PI/180;
+      const newThickScale = z * .5 + 1.5;
+      const newHeightScale = z * 3;
 
-      dummy.position.set(x - offset, y - offset, -z);
+      dummy.position.set(x - offset, y - offset, -10);
     
-      dummy.rotation.set(newRotX, tick, tick);
+      // dummy.rotation.set(newRotX, Math.PI/2, Math.PI/2);
+      dummy.rotation.set(Math.PI/2 + newRotX, 0, newRotX);
 
-      dummy.scale.set(newScale, 1, 1);
+      dummy.scale.set(newThickScale, newHeightScale, newThickScale);
+      // dummy.scale.set(1, 3, 1);
 
       dummy.updateMatrix();
+
+
+      mesh.setColorAt(i, defaultColor);
+      mesh.instanceColor.needsUpdate = true;
+
       mesh.setMatrixAt(i++, dummy.matrix );
+
 
     }
   }
@@ -506,7 +523,7 @@ function animate(now) {
   // console.log(tick)
   //  makeNoisy(tick*0.008)
   makeApplesaver(tick * 0.005 * params.speed)
-  makeRectangle(tick * 0.005 * params.speed)
+  makeRectangle(tick * 0.00125/4 * params.speed)
   render();
   stats.update();
 }
