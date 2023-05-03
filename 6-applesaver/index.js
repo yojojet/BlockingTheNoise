@@ -30,7 +30,7 @@ import {
 let params = {
   widthOffset: 0,
   boolean: false,
-  plotPlane: () => {},
+  plotApplesaver: () => {},
 };
 
 let tick = 0;
@@ -179,7 +179,7 @@ function initMesh() {
 
 
 
-function makePlane(time) {
+function makeApplesaver(time) {
   let i = 0;
   let zero = 0
   let n = zero
@@ -333,14 +333,14 @@ function makePlane(time) {
 
 function initGui() {
   var gui = new GUI();
-  params.plotPlane = makePlane
+  params.plotApplesaver = makeApplesaver
   gui.add({
     controls: false
   }, 'controls').onChange((v) => {
     controls.enabled = v
   })
-  gui.add(params, "plotPlane")
-  makePlane(0)
+  gui.add(params, "plotApplesaver")
+  makeApplesaver(0)
 }
 
 //
@@ -407,7 +407,7 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
-  makePlane(tick * 0.005)
+  makeApplesaver(tick * 0.005)
   render();
   stats.update();
 }
