@@ -28,7 +28,7 @@ import {
 // Real-time Cloth Animation http://www.darwin3d.com/gamedev/articles/col0599.pdf
 
 let params = {
-  speed: 0.005,
+  speed: 1,
   complexity: 50,
   number : 10,
   widthOffset: 0,
@@ -571,12 +571,12 @@ function animate(now) {
   // console.log(tick)
   //  makeNoisy(tick*0.008)
  if (mode == "vulcano") {
-  makeVulcano(tick * params.speed) 
+  makeVulcano(tick * params.speed * 0.04) 
   // tick * 0.0005
  }
 
   else if (mode == "island") {
-    makeIsland(tick * params.speed)
+    makeIsland(tick * params.speed * 0.04)
   }
 
   render();
