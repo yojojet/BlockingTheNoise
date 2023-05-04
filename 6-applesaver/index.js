@@ -35,13 +35,16 @@ let params = {
   colouring : 1,
   widthOffset: 0,
   boolean: false,
-  plotApplesaver: () => {},
+  plotApplesaver: () => {mode = "applesaver"},
+  plotRectangle: () => {mode = "rectangle"},
+  
 };
 
 let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
+let mode = "applesaver"
 const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
@@ -258,7 +261,7 @@ function makeApplesaver(time) {
 
       const hue = n * .1 * (params.colouring/2.5)
       const saturation = 1
-      const lightness = (-(z) * .3) * .2
+      const lightness = (-(z) * .3) * .2 + .2
       defaultColor.setHSL(hue,saturation,lightness)
 
       colourArray[index] = defaultColor.r // r
@@ -436,13 +439,15 @@ defaultColor.setHSL(hue,saturation,lightness)
 
 function initGui() {
   var gui = new GUI();
-  params.plotApplesaver = makeApplesaver
+  // params.plotApplesaver = makeApplesaver
+  // params.plotRectangle = makeRectangle
   gui.add({
     controls: false
   }, 'controls').onChange((v) => {
     controls.enabled = v
   })
   gui.add(params, "plotApplesaver")
+  gui.add(params, "plotRectangle")
   gui.add(params, "speed", 0, 100, 1).onChange((v) => {
     // speed = v * 0.1
     })
@@ -522,8 +527,16 @@ function animate(now) {
   requestAnimationFrame(animate);
   // console.log(tick)
   //  makeNoisy(tick*0.008)
+  if (mode == "applesaver") {
   makeApplesaver(tick * 0.005 * params.speed)
-  makeRectangle(tick * 0.00125/4 * params.speed)
+  plane.visible = true
+  mesh.visible = false
+  }
+  else if (mode == "rectangle"){
+  makeRectangle(tick * 0.00125/2 * params.speed)
+  mesh.visible = true
+  plane.visible = false
+  }
   render();
   stats.update();
 }
