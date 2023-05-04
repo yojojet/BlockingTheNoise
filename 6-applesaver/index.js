@@ -416,7 +416,7 @@ defaultColor.setHSL(hue,saturation,lightness)
       dummy.position.set(x - offset, y - offset, -1.5);
     
       // dummy.rotation.set(newRotX, Math.PI/2, Math.PI/2);
-      dummy.rotation.set(Math.PI/2 + newRotX, 0, newRotX);
+      dummy.rotation.set(Math.PI/2 + newRotX, 0, newRotX + 0.5);
 
       dummy.scale.set(newThickScale, newHeightScale, newThickScale);
       // dummy.scale.set(1, 3, 1);
