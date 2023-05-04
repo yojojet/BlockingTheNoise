@@ -65,7 +65,7 @@ function init() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  // scene.fog = new THREE.Fog(0xcce0ff, 500, 10000);
+  scene.fog = new THREE.Fog(0x000000, amount * 2-4, amount * 2 + 0);
 
   // camera
 
@@ -75,7 +75,7 @@ function init() {
     1,
     10000
   );
-  camera.position.set(5, 5, amount * 2);
+  camera.position.set(0, amount * 2, 0);
 
   var loader = new THREE.TextureLoader();
 
@@ -255,13 +255,14 @@ function makeApplesaver(time) {
       // positionArray[index+0] = positionArray[index+0] // x
       // positionArray[index+1] = positionArray[index+1] // y
 
-      const z = (50 * (n) - 25) * .025 * params.complexity
+      const shiftPlaneZ = 10
+      const z = (50 * (n) - 25) * .025 * params.complexity + shiftPlaneZ
 
       positionArray[index+2] = z
 
       const hue = n * .1 * (params.colouring/2.5)
       const saturation = 1
-      const lightness = (-(z) * .3) * .2 + .2
+      const lightness = (-(z) * .3) * .2 + .2 + .6
       defaultColor.setHSL(hue,saturation,lightness)
 
       colourArray[index] = defaultColor.r // r
@@ -348,7 +349,6 @@ function makeApplesaver(time) {
 
 
 function makeRectangle(time) {
-
   let i = 0;
   let zero = 0
   let n = zero
@@ -413,7 +413,7 @@ defaultColor.setHSL(hue,saturation,lightness)
       const newThickScale = z * .5 + 1.5;
       const newHeightScale = z * 3;
 
-      dummy.position.set(x - offset, y - offset, -10);
+      dummy.position.set(x - offset, y - offset, -1.5);
     
       // dummy.rotation.set(newRotX, Math.PI/2, Math.PI/2);
       dummy.rotation.set(Math.PI/2 + newRotX, 0, newRotX);
