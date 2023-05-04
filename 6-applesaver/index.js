@@ -442,7 +442,7 @@ function initGui() {
   // params.plotApplesaver = makeApplesaver
   // params.plotRectangle = makeRectangle
   gui.add({
-    controls: false
+    controls: true
   }, 'controls').onChange((v) => {
     controls.enabled = v
   })

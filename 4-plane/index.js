@@ -232,7 +232,7 @@ console.log(plane.geometry.vertices)
 function initGui() {
   var gui = new GUI();
   params.plotPlane = makePlane
-  gui.add({ controls: false}, 'controls').onChange((v)=>{
+  gui.add({ controls: true}, 'controls').onChange((v)=>{
     controls.enabled = v
   })  
 gui.add(params, "plotPlane")

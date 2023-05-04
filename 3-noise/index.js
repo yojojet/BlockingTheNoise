@@ -415,7 +415,7 @@ function initGui() {
   params.plotUfo = makeUfo
   params.plotNoisy = makeNoisy
   params.plotThreed = makeThreed
-  gui.add({ controls: false}, 'controls').onChange((v)=>{
+  gui.add({ controls: true}, 'controls').onChange((v)=>{
     controls.enabled = v
   })
   gui.add(params, "plotRectangle")

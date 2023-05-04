@@ -488,7 +488,7 @@ function initGui() {
   // params.plotIsland = makeIsland
   // params.plotVulcano = makeVulcano
   gui.add({
-    controls: false
+    controls: true
   }, 'controls').onChange((v) => {
     controls.enabled = v
   })
