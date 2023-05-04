@@ -393,7 +393,7 @@ const z = (50 * (n) - 25) * .025 * params.complexity
 
 const hue = n * .1 * (params.colouring/2.5)
 const saturation = 1
-const lightness = (-(z) * .3) * .2 + 0.2
+const lightness = ((z) * .3) * .2 + 0.5
 defaultColor.setHSL(hue,saturation,lightness)
 
 // colourArray[index] = defaultColor.r // r
