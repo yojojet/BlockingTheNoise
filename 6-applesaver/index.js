@@ -44,7 +44,7 @@ let tick = 0;
 let container, stats;
 let camera, scene, renderer, mesh, controls;
 let plane = null;
-let mode = "applesaver"
+let mode = "rectangle"
 const defaultColor = new THREE.Color("hsl(50, 100%, 50%)");
 
 const amount = 100;
@@ -460,7 +460,7 @@ function initGui() {
     gui.add(params, "colouring", 0, 100, 1).onChange ((v) =>{
     
     })
-  makeApplesaver(0)
+  // makeApplesaver(0)
 }
 
 //
